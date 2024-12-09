@@ -133,7 +133,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\lsApp.cpp" />
+    <ClCompile Include="src\lsCanvas.cpp" />
+    <ClCompile Include="src\lsFrame.cpp" />
+    <ClCompile Include="src\lsUtils.cpp" />
     <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\lsApp.h" />
+    <ClInclude Include="src\lsCanvas.h" />
+    <ClInclude Include="src\lsFrame.h" />
+    <ClInclude Include="src\lsUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
