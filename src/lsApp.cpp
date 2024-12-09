@@ -14,6 +14,11 @@ bool lsApp::OnInit()
         wxImage::AddHandler( new wxJPEGHandler );
 
 	lsFrame* frame = new lsFrame();
+
+    wxIcon icon;
+    icon.LoadFile("resources/images/icons/app.ico", wxBITMAP_TYPE_ICO);
+    frame->SetIcon(icon);
+
 	frame->Show(true);
 	return true;
 }

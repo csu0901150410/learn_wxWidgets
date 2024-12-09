@@ -12,6 +12,10 @@ public:
     void LoadImage(const wxString& path);
 
     void OnDraw(wxDC& dc) override;
+    void OnSize(wxSizeEvent& event);
+
+private:
+    void CenterImage();
 
 private:
     wxBitmap m_bitmap;

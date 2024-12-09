@@ -57,6 +57,8 @@ lsFrame::lsFrame()
     Bind(wxEVT_MENU, &lsFrame::OnZoomOut, this, ID_ZOOM_OUT);
     Bind(wxEVT_MENU, &lsFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &lsFrame::OnExit, this, wxID_EXIT);
+
+	Centre();
 }
 
 void lsFrame::OnOpen(wxCommandEvent &event)
