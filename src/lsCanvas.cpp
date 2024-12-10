@@ -20,6 +20,57 @@ void lsCanvas::LoadImage(const wxString& path)
     }
 }
 
+bool lsCanvas::SaveImage(const wxString &path)
+{
+    if (!HasImage())
+        return false;
+    
+    wxBitmapType type;
+    wxString ext = path.AfterLast('.').Lower();
+    
+    if (ext == "png")
+        type = wxBITMAP_TYPE_PNG;
+    else if (ext == "jpg" || ext == "jpeg")
+        type = wxBITMAP_TYPE_JPEG;
+    else if (ext == "bmp")
+        type = wxBITMAP_TYPE_BMP;
+    else
+        return false;
+        
+    return m_bitmap.SaveFile(path, type);
+}
+
+bool lsCanvas::Binarize(int threshold)
+{
+    if (!HasImage())
+        return false;
+
+    // 获取图像数据
+    wxImage image = m_bitmap.ConvertToImage();
+    unsigned char* data = image.GetData();
+    int width = image.GetWidth();
+    int height = image.GetHeight();
+    
+    // 执行二值化
+    for (int i = 0; i < width * height * 3; i += 3)
+    {
+        // 计算灰度值 (使用加权平均法)
+        int gray = (data[i] * 299 + data[i + 1] * 587 + data[i + 2] * 114) / 1000;
+        
+        // 二值化处理
+        unsigned char value = (gray > threshold) ? 255 : 0;
+        data[i] = data[i + 1] = data[i + 2] = value;
+    }
+    
+    // 更新位图
+    m_bitmap = wxBitmap(image);
+    
+    // 刷新显示
+    Refresh();
+    
+    return true;
+}
+
 void lsCanvas::OnDraw(wxDC& dc)
 {
     if (!m_bitmap.IsOk())
