@@ -1,5 +1,10 @@
 ﻿#include "lsCanvas.h"
 
+#include <opencv2/opencv.hpp>
+
+// See https://github.com/PBfordev/wxopencvtest
+#include "convertmattowxbmp.h"
+
 lsCanvas::lsCanvas(wxFrame *parent)
     : wxScrolledWindow(parent)
 {
@@ -11,12 +16,21 @@ lsCanvas::lsCanvas(wxFrame *parent)
 
 void lsCanvas::LoadImage(const wxString& path)
 {
-    wxImage image;
-    if (image.LoadFile(path))
+    // 使用OpenCV直接加载图像
+    std::string stdPath(path.mb_str());
+    m_image = cv::imread(stdPath);
+    if (!m_image.empty())
     {
-        m_bitmap = wxBitmap(image);
+        // 确保图像格式为BGR CV_8UC3
+        if (m_image.type() != CV_8UC3) {
+            cv::Mat temp;
+            m_image.convertTo(temp, CV_8UC3);
+            m_image = temp;
+        }
+
+        m_needUpdate = true;
         CenterImage();
-        Refresh(); // 重绘面板
+        Refresh();
     }
 }
 
@@ -25,19 +39,8 @@ bool lsCanvas::SaveImage(const wxString &path)
     if (!HasImage())
         return false;
     
-    wxBitmapType type;
-    wxString ext = path.AfterLast('.').Lower();
-    
-    if (ext == "png")
-        type = wxBITMAP_TYPE_PNG;
-    else if (ext == "jpg" || ext == "jpeg")
-        type = wxBITMAP_TYPE_JPEG;
-    else if (ext == "bmp")
-        type = wxBITMAP_TYPE_BMP;
-    else
-        return false;
-        
-    return m_bitmap.SaveFile(path, type);
+    std::string stdPath(path.mb_str());
+    return cv::imwrite(stdPath, m_image);
 }
 
 bool lsCanvas::Binarize(int threshold)
@@ -45,42 +48,39 @@ bool lsCanvas::Binarize(int threshold)
     if (!HasImage())
         return false;
 
-    // 获取图像数据
-    wxImage image = m_bitmap.ConvertToImage();
-    unsigned char* data = image.GetData();
-    int width = image.GetWidth();
-    int height = image.GetHeight();
+    // 转换为灰度图
+    cv::Mat gray_image;
+    cv::cvtColor(m_image, gray_image, cv::COLOR_BGR2GRAY);
     
     // 执行二值化
-    for (int i = 0; i < width * height * 3; i += 3)
-    {
-        // 计算灰度值 (使用加权平均法)
-        int gray = (data[i] * 299 + data[i + 1] * 587 + data[i + 2] * 114) / 1000;
-        
-        // 二值化处理
-        unsigned char value = (gray > threshold) ? 255 : 0;
-        data[i] = data[i + 1] = data[i + 2] = value;
-    }
+    cv::Mat binary_image;
+    cv::threshold(gray_image, binary_image, threshold, 255, cv::THRESH_BINARY);
     
-    // 更新位图
-    m_bitmap = wxBitmap(image);
+    // 转换回BGR图像
+    cv::cvtColor(binary_image, m_image, cv::COLOR_GRAY2BGR);
     
-    // 刷新显示
+    m_needUpdate = true;
     Refresh();
-    
     return true;
 }
 
 void lsCanvas::OnDraw(wxDC& dc)
 {
-    if (!m_bitmap.IsOk())
+    if (m_image.empty())
         return;
+
+    // 如果需要更新缓存的位图
+    if (m_needUpdate)
+    {
+        m_cachedBitmap = ConvertToBitmap();
+        m_needUpdate = false;
+    }
 
     // 获取面板和图片的尺寸
     int panelWidth, panelHeight;
     GetSize(&panelWidth, &panelHeight);
-    int bmpWidth = m_bitmap.GetWidth();
-    int bmpHeight = m_bitmap.GetHeight();
+    int bmpWidth = m_cachedBitmap.GetWidth();
+    int bmpHeight = m_cachedBitmap.GetHeight();
 
     // 计算居中位置
     int x = (panelWidth - bmpWidth) / 2;
@@ -101,12 +101,12 @@ void lsCanvas::OnDraw(wxDC& dc)
     x = wxMax(0, x);
     y = wxMax(0, y);
 
-    dc.DrawBitmap(m_bitmap, x, y, true);
+    dc.DrawBitmap(m_cachedBitmap, x, y, true);
 }
 
 void lsCanvas::OnSize(wxSizeEvent &event)
 {
-    if (m_bitmap.IsOk())
+    if (!m_image.empty())
     {
         CenterImage();
     }
@@ -115,14 +115,14 @@ void lsCanvas::OnSize(wxSizeEvent &event)
 
 void lsCanvas::CenterImage()
 {
-    if (!m_bitmap.IsOk())
+    if (m_image.empty())
         return;
 
     // 获取面板和图片的尺寸
     int panelWidth, panelHeight;
     GetSize(&panelWidth, &panelHeight);
-    int bmpWidth = m_bitmap.GetWidth();
-    int bmpHeight = m_bitmap.GetHeight();
+    int bmpWidth = m_image.cols;
+    int bmpHeight = m_image.rows;
 
     // 设置虚拟大小
     // 当图片小于面板时，使用面板大小作为虚拟大小
@@ -143,4 +143,19 @@ void lsCanvas::CenterImage()
     }
 
     Refresh();  // 强制重绘
+}
+
+wxBitmap lsCanvas::ConvertToBitmap() const
+{
+    if (m_image.empty())
+        return wxBitmap();
+
+    // wxBitmap的宽高应该初始化为和Mat一致，且深度为24
+    wxBitmap bitmap(m_image.cols, m_image.rows, 24);
+    bool bSuccess = ConvertMatBitmapTowxBitmap(m_image, bitmap);
+    if (!bSuccess)
+        return wxBitmap();
+    
+    // 返回wxBitmap
+    return bitmap;
 }

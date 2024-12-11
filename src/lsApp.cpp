@@ -28,3 +28,6 @@ int lsApp::OnExit()
 	// 释放申请的资源
 	return 0;
 }
+
+// 指定app类
+IMPLEMENT_APP(lsApp)

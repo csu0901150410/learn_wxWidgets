@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "wx/wx.h"
+#include "opencv2/opencv.hpp"
 
 class lsFrame;
 
@@ -10,7 +11,7 @@ public:
     lsCanvas(wxFrame *parent);
 
     void LoadImage(const wxString& path);
-    bool HasImage() const { return !m_bitmap.IsNull(); }
+    bool HasImage() const { return !m_image.empty(); }
 	bool SaveImage(const wxString& path);
 
     bool Binarize(int threshold);
@@ -20,7 +21,10 @@ public:
 
 private:
     void CenterImage();
+    wxBitmap ConvertToBitmap() const;
 
 private:
-    wxBitmap m_bitmap;
+    cv::Mat m_image;
+    wxBitmap m_cachedBitmap;// 缓存，用于显示
+     bool m_needUpdate { false };// 标记是否需要更新缓存的位图
 };
