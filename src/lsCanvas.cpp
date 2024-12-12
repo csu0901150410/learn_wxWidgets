@@ -5,7 +5,7 @@
 // See https://github.com/PBfordev/wxopencvtest
 #include "convertmattowxbmp.h"
 
-lsCanvas::lsCanvas(wxFrame *parent)
+lsCanvas::lsCanvas(wxWindow* parent)
     : wxScrolledWindow(parent)
 {
     SetBackgroundColour(*wxBLACK);
