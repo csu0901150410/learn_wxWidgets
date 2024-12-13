@@ -5,17 +5,37 @@
 // See https://github.com/PBfordev/wxopencvtest
 #include "convertmattowxbmp.h"
 
+#include "lsUtils.h"
+
 lsCanvas::lsCanvas(wxWindow* parent)
     : wxScrolledWindow(parent)
 {
     SetBackgroundColour(*wxBLACK);
     SetScrollRate(0, 0); // 初始时禁用滚动条
 
+    m_timer = new wxTimer(this);
+
     Bind(wxEVT_SIZE, &lsCanvas::OnSize, this);
+    Bind(wxEVT_TIMER, &lsCanvas::OnTimer, this);
+}
+
+lsCanvas::~lsCanvas()
+{
+    CloseCamera();
+    if (m_timer)
+    {
+        m_timer->Stop();
+        delete m_timer;
+    }
 }
 
 void lsCanvas::LoadImage(const wxString& path)
 {
+    if (IsCameraOpen())
+    {
+        CloseCamera();
+    }
+
     // 使用OpenCV直接加载图像
     std::string stdPath(path.mb_str());
     m_image = cv::imread(stdPath);
@@ -67,7 +87,12 @@ bool lsCanvas::Binarize(int threshold)
 void lsCanvas::OnDraw(wxDC& dc)
 {
     if (m_image.empty())
+    {
+        // 没有图片时显示黑色背景
+        dc.SetBackground(*wxBLACK_BRUSH);
+        dc.Clear();
         return;
+    }
 
     // 如果需要更新缓存的位图
     if (m_needUpdate)
@@ -111,6 +136,37 @@ void lsCanvas::OnSize(wxSizeEvent &event)
         CenterImage();
     }
     event.Skip();
+}
+
+bool lsCanvas::OpenCamera(int deviceId)
+{
+    CloseCamera();
+
+    if (!m_camera.open(deviceId))
+    {
+        return false;
+    }
+
+    // 定时器开始，更新画面
+    m_isStreaming = true;
+    m_timer->Start(33);// 30fps
+    return true;
+}
+
+void lsCanvas::CloseCamera()
+{
+    if (m_camera.isOpened())
+    {
+        m_timer->Stop();
+        m_camera.release();
+        m_isStreaming = false;
+
+        // 关闭摄像头的时候清空图片缓存
+        m_image.release();
+        m_cachedBitmap = wxBitmap();
+        m_needUpdate = false;
+        Refresh();
+    }
 }
 
 void lsCanvas::CenterImage()
@@ -158,4 +214,20 @@ wxBitmap lsCanvas::ConvertToBitmap() const
     
     // 返回wxBitmap
     return bitmap;
+}
+
+void lsCanvas::OnTimer(wxTimerEvent &event)
+{
+    if (!m_isStreaming || !m_camera.isOpened())
+        return;
+
+    // 从视频流读取帧的例程
+    cv::Mat frame;
+    if (m_camera.read(frame))
+    {
+        ocv_grayscale(frame);
+        m_image = frame;
+        m_needUpdate = true;
+        Refresh();
+    }
 }

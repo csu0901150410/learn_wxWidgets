@@ -23,6 +23,9 @@ public:
 
 	void OnBinarize(wxCommandEvent& event);
 
+	void OnOpenCamera(wxCommandEvent& event);
+	void OnCloseCamera(wxCommandEvent& event);
+
 	void ShowConsole(bool show);
 	bool IsConsoleShown() const;
 	void Log(const wxString& message);
@@ -42,5 +45,7 @@ enum
 	ID_ZOOM_IN,
 	ID_ZOOM_OUT,
 	ID_TOOL_BINARIZE,
-	ID_VIEW_CONSOLE
+	ID_VIEW_CONSOLE,
+	ID_VIEW_OPEN_CAMERA,
+	ID_VIEW_CLOSE_CAMERA
 };

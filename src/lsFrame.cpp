@@ -25,6 +25,9 @@ lsFrame::lsFrame()
     wxMenuItem *itemViewConsole = menuView->AppendCheckItem(ID_VIEW_CONSOLE, wxT("显示控制台\tCtrl+`"));
     itemViewConsole->Check(true);
 
+    menuView->Append(ID_VIEW_OPEN_CAMERA, wxT("打开摄像头"));
+    menuView->Append(ID_VIEW_CLOSE_CAMERA, wxT("关闭摄像头"));
+
     wxMenu* menuHelp = new wxMenu;
     menuHelp->Append(wxID_ABOUT, wxT("关于"));
 
@@ -102,6 +105,8 @@ lsFrame::lsFrame()
     Bind(wxEVT_MENU, &lsFrame::OnViewConsole, this, ID_VIEW_CONSOLE);
 
     Bind(wxEVT_MENU, &lsFrame::OnBinarize, this, ID_TOOL_BINARIZE);
+    Bind(wxEVT_MENU, &lsFrame::OnOpenCamera, this, ID_VIEW_OPEN_CAMERA);
+    Bind(wxEVT_MENU, &lsFrame::OnCloseCamera, this, ID_VIEW_CLOSE_CAMERA);
 
     // 绑定分隔条事件
     m_splitter->Bind(wxEVT_SPLITTER_SASH_POS_CHANGED, 
@@ -110,7 +115,7 @@ lsFrame::lsFrame()
 
 	Centre();
 
-    Log(wxT("lsCanvas ctor called!\n"));
+    Log(wxT("lsCanvas ctor called!"));
 }
 
 void lsFrame::OnOpen(wxCommandEvent &event)
@@ -124,6 +129,8 @@ void lsFrame::OnOpen(wxCommandEvent &event)
 		m_canvas->LoadImage(openDialog.GetPath());
 		SetStatusText(openDialog.GetPath());
 	}
+
+    Log(wxString::Format(wxT("Load image: %s"), openDialog.GetPath()));
 }
 
 void lsFrame::OnSave(wxCommandEvent &event)
@@ -209,6 +216,24 @@ void lsFrame::OnBinarize(wxCommandEvent &event)
             wxMessageBox(wxT("二值化处理失败！"), wxT("错误"), wxOK | wxICON_ERROR);
         }
     }
+}
+
+void lsFrame::OnOpenCamera(wxCommandEvent &event)
+{
+    if (m_canvas->OpenCamera(0))
+    {
+        Log(wxT("Camera open success!"));
+    }
+    else
+    {
+        Log(wxT("Camera open failed!"));
+    }
+}
+
+void lsFrame::OnCloseCamera(wxCommandEvent &event)
+{
+    m_canvas->CloseCamera();
+    Log(wxT("Camera closed!"));
 }
 
 void lsFrame::ShowConsole(bool show)
