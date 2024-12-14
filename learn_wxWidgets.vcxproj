@@ -140,6 +140,7 @@
     <ClCompile Include="src\convertmattowxbmp.cpp" />
     <ClCompile Include="src\lsApp.cpp" />
     <ClCompile Include="src\lsCanvas.cpp" />
+    <ClCompile Include="src\lsDebug.cpp" />
     <ClCompile Include="src\lsFrame.cpp" />
     <ClCompile Include="src\lsUtils.cpp" />
   </ItemGroup>
@@ -147,6 +148,7 @@
     <ClInclude Include="src\convertmattowxbmp.h" />
     <ClInclude Include="src\lsApp.h" />
     <ClInclude Include="src\lsCanvas.h" />
+    <ClInclude Include="src\lsDebug.h" />
     <ClInclude Include="src\lsFrame.h" />
     <ClInclude Include="src\lsUtils.h" />
   </ItemGroup>

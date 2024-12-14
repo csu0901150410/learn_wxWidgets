@@ -1,8 +1,12 @@
 ﻿#include "lsApp.h"
 #include "lsFrame.h"
 
+#include "lsDebug.h"
+
 bool lsApp::OnInit()
 {
+    LS_DEBUG->print("lsApp::OnInit() -- format : %s", "test");
+
     // Install some image handlers, mainly for help
     if( wxImage::FindHandler( wxBITMAP_TYPE_PNG ) == nullptr )
         wxImage::AddHandler( new wxPNGHandler );
