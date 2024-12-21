@@ -6,11 +6,11 @@
 
 class lsFrame;
 
-class lsCanvas : public wxScrolledWindow
+class lsImagePanel : public wxScrolledWindow
 {
 public:
-    lsCanvas(wxWindow* parent);
-    ~lsCanvas();
+    lsImagePanel(wxWindow* parent);
+    ~lsImagePanel();
 
     void LoadImage(const wxString& path);
     bool HasImage() const { return !m_image.empty(); }

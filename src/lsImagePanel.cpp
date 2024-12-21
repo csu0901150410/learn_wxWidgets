@@ -1,4 +1,4 @@
-﻿#include "lsCanvas.h"
+﻿#include "lsImagePanel.h"
 
 #include <opencv2/opencv.hpp>
 
@@ -7,7 +7,7 @@
 
 #include "lsUtils.h"
 
-lsCanvas::lsCanvas(wxWindow* parent)
+lsImagePanel::lsImagePanel(wxWindow* parent)
     : wxScrolledWindow(parent)
 {
     SetBackgroundColour(*wxBLACK);
@@ -15,11 +15,11 @@ lsCanvas::lsCanvas(wxWindow* parent)
 
     m_timer = new wxTimer(this);
 
-    Bind(wxEVT_SIZE, &lsCanvas::OnSize, this);
-    Bind(wxEVT_TIMER, &lsCanvas::OnTimer, this);
+    Bind(wxEVT_SIZE, &lsImagePanel::OnSize, this);
+    Bind(wxEVT_TIMER, &lsImagePanel::OnTimer, this);
 }
 
-lsCanvas::~lsCanvas()
+lsImagePanel::~lsImagePanel()
 {
     CloseCamera();
     if (m_timer)
@@ -29,7 +29,7 @@ lsCanvas::~lsCanvas()
     }
 }
 
-void lsCanvas::LoadImage(const wxString& path)
+void lsImagePanel::LoadImage(const wxString& path)
 {
     if (IsCameraOpen())
     {
@@ -54,7 +54,7 @@ void lsCanvas::LoadImage(const wxString& path)
     }
 }
 
-bool lsCanvas::SaveImage(const wxString &path)
+bool lsImagePanel::SaveImage(const wxString &path)
 {
     if (!HasImage())
         return false;
@@ -63,7 +63,7 @@ bool lsCanvas::SaveImage(const wxString &path)
     return cv::imwrite(stdPath, m_image);
 }
 
-bool lsCanvas::Binarize(int threshold)
+bool lsImagePanel::Binarize(int threshold)
 {
     if (!HasImage())
         return false;
@@ -84,7 +84,7 @@ bool lsCanvas::Binarize(int threshold)
     return true;
 }
 
-void lsCanvas::OnDraw(wxDC& dc)
+void lsImagePanel::OnDraw(wxDC& dc)
 {
     if (m_image.empty())
     {
@@ -129,7 +129,7 @@ void lsCanvas::OnDraw(wxDC& dc)
     dc.DrawBitmap(m_cachedBitmap, x, y, true);
 }
 
-void lsCanvas::OnSize(wxSizeEvent &event)
+void lsImagePanel::OnSize(wxSizeEvent &event)
 {
     if (!m_image.empty())
     {
@@ -138,7 +138,7 @@ void lsCanvas::OnSize(wxSizeEvent &event)
     event.Skip();
 }
 
-bool lsCanvas::OpenCamera(int deviceId)
+bool lsImagePanel::OpenCamera(int deviceId)
 {
     CloseCamera();
 
@@ -153,7 +153,7 @@ bool lsCanvas::OpenCamera(int deviceId)
     return true;
 }
 
-void lsCanvas::CloseCamera()
+void lsImagePanel::CloseCamera()
 {
     if (m_camera.isOpened())
     {
@@ -169,7 +169,7 @@ void lsCanvas::CloseCamera()
     }
 }
 
-void lsCanvas::CenterImage()
+void lsImagePanel::CenterImage()
 {
     if (m_image.empty())
         return;
@@ -201,7 +201,7 @@ void lsCanvas::CenterImage()
     Refresh();  // 强制重绘
 }
 
-wxBitmap lsCanvas::ConvertToBitmap() const
+wxBitmap lsImagePanel::ConvertToBitmap() const
 {
     if (m_image.empty())
         return wxBitmap();
@@ -216,7 +216,7 @@ wxBitmap lsCanvas::ConvertToBitmap() const
     return bitmap;
 }
 
-void lsCanvas::OnTimer(wxTimerEvent &event)
+void lsImagePanel::OnTimer(wxTimerEvent &event)
 {
     if (!m_isStreaming || !m_camera.isOpened())
         return;

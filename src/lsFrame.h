@@ -3,7 +3,8 @@
 #include <wx/wx.h>
 #include <wx/splitter.h>
 
-class lsCanvas;
+class lsImagePanel;
+class lsDrawPanel;
 
 // 窗口类
 class lsFrame : public wxFrame
@@ -26,6 +27,8 @@ public:
 	void OnOpenCamera(wxCommandEvent& event);
 	void OnCloseCamera(wxCommandEvent& event);
 
+	void OnRedrawCanvas(wxCommandEvent& event);
+
 	void ShowConsole(bool show);
 	bool IsConsoleShown() const;
 	void Log(const wxString& message);
@@ -33,8 +36,10 @@ public:
 private:
 	wxToolBar* m_toolBar;
 	wxSplitterWindow* m_splitter;// 分隔的窗口，上边是绘图区，下边是控制台
-	lsCanvas* m_canvas;
+	lsImagePanel* m_imgpanel;
 	wxTextCtrl *m_console;
+
+	lsDrawPanel* m_canvas;
 
 	int m_lastSashPosition = 300;
 };
@@ -47,5 +52,6 @@ enum
 	ID_TOOL_BINARIZE,
 	ID_VIEW_CONSOLE,
 	ID_VIEW_OPEN_CAMERA,
-	ID_VIEW_CLOSE_CAMERA
+	ID_VIEW_CLOSE_CAMERA,
+	ID_VIEW_REDRAW_CANVAS
 };
