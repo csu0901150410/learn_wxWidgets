@@ -13,17 +13,26 @@
 class lsView
 {
 public:
-    lsView(wxWindow *parent) : m_painter(parent) {}
-    ~lsView() {}
+    lsView(wxWindow *parent)
+    {
+        m_painter = new lsPainter(parent);
+    }
+
+    ~lsView()
+    {
+        delete m_painter;
+    }
 
     void add(const lsLine& line);
 
     void redraw();
+
+    void init_context_info(bool force = false);
 
 private:
     void draw(const lsLine *line);
 
 public:
     std::vector<lsLine> m_entitys;
-    lsPainter m_painter;
+    lsPainter *m_painter;
 };
