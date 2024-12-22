@@ -15,13 +15,25 @@
     <ClCompile Include="src\lsUtils.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\lsCanvas.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\convertmattowxbmp.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\lsDebug.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lsDrawPanel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lsImagePanel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lsLine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lsPainter.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lsView.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,13 +47,25 @@
     <ClInclude Include="src\lsUtils.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\lsCanvas.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\convertmattowxbmp.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\lsDebug.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lsDrawPanel.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lsImagePanel.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lsLine.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lsPainter.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lsView.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

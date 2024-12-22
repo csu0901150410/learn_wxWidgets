@@ -139,18 +139,26 @@
   <ItemGroup>
     <ClCompile Include="src\convertmattowxbmp.cpp" />
     <ClCompile Include="src\lsApp.cpp" />
-    <ClCompile Include="src\lsCanvas.cpp" />
     <ClCompile Include="src\lsDebug.cpp" />
+    <ClCompile Include="src\lsDrawPanel.cpp" />
     <ClCompile Include="src\lsFrame.cpp" />
+    <ClCompile Include="src\lsImagePanel.cpp" />
+    <ClCompile Include="src\lsLine.cpp" />
+    <ClCompile Include="src\lsPainter.cpp" />
     <ClCompile Include="src\lsUtils.cpp" />
+    <ClCompile Include="src\lsView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\convertmattowxbmp.h" />
     <ClInclude Include="src\lsApp.h" />
-    <ClInclude Include="src\lsCanvas.h" />
     <ClInclude Include="src\lsDebug.h" />
+    <ClInclude Include="src\lsDrawPanel.h" />
     <ClInclude Include="src\lsFrame.h" />
+    <ClInclude Include="src\lsImagePanel.h" />
+    <ClInclude Include="src\lsLine.h" />
+    <ClInclude Include="src\lsPainter.h" />
     <ClInclude Include="src\lsUtils.h" />
+    <ClInclude Include="src\lsView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

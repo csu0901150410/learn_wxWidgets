@@ -256,7 +256,6 @@ void lsFrame::OnCloseCamera(wxCommandEvent &event)
 
 void lsFrame::OnRedrawCanvas(wxCommandEvent &event)
 {
-    m_canvas->Redraw();
 }
 
 void lsFrame::ShowConsole(bool show)

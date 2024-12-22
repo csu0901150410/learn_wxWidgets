@@ -1,40 +1,31 @@
 ﻿#include "lsDrawPanel.h"
 
-#include "wx/wx.h"
+#include <wx/wx.h>
 
 lsDrawPanel::lsDrawPanel(wxWindow *parent)
     : wxScrolledCanvas(parent)
 {
     SetBackgroundColour(*wxBLACK);
 
+    m_view = new lsView(this);
+    m_view->add(lsLine(0, 0, 200, 300));
+
     Bind(wxEVT_PAINT, &lsDrawPanel::OnPaint, this);
 }
 
 lsDrawPanel::~lsDrawPanel()
 {
+    delete m_view;
 }
 
 void lsDrawPanel::OnPaint(wxPaintEvent &event)
 {
-    // wxPaintDC 只能用在wxPaintEvent事件中
     wxPaintDC dc(this);
-    render(dc);
+
+    do_repaint();
 }
 
-void lsDrawPanel::Redraw()
+void lsDrawPanel::do_repaint()
 {
-    wxClientDC dc(this);
-    render(dc);
-
-    // 测试在wxPaintEvent外绘制
-    dc.SetPen(wxPen(wxColour(0, 0, 255), 5));
-    dc.DrawCircle(wxPoint(600, 400), 50);
-}
-
-void lsDrawPanel::render(wxDC &dc)
-{
-    dc.SetBrush(*wxGREEN_BRUSH);
-    dc.SetPen(wxPen(wxColour(255, 0, 0), 5));
-
-    dc.DrawCircle(wxPoint(300, 400), 50);
+    m_view->redraw();
 }
