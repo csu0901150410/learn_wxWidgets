@@ -108,16 +108,17 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(CPP_LIBS)\wxWIdgets\include;$(CPP_LIBS)\wxWidgets\include\msvc;$(CPP_LIBS)\opencv\build\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CPP_LIBS)\wxWIdgets\include;$(CPP_LIBS)\wxWidgets\include\msvc;$(CPP_LIBS)\opencv\build\include;$(CPP_LIBS)\cairo\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(CPP_LIBS)\wxWidgets\lib\vc_x64_lib;$(CPP_LIBS)\opencv\build\x64\vc16\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world490d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(CPP_LIBS)\wxWidgets\lib\vc_x64_lib;$(CPP_LIBS)\opencv\build\x64\vc16\lib;$(CPP_LIBS)\cairo\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_world490d.lib;cairo.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(CPP_LIBS)\opencv\build\x64\vc16\bin\opencv_world490d.dll" "$(SolutionDir)build\" /s /e /i /d /y</Command>
+      <Command>xcopy "$(CPP_LIBS)\opencv\build\x64\vc16\bin\opencv_world490d.dll" "$(SolutionDir)build\" /s /e /i /d /y
+xcopy "$(CPP_LIBS)\cairo\lib\x64\cairo.dll" "$(SolutionDir)build\" /s /e /i /d /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
