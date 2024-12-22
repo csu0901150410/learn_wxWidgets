@@ -1,5 +1,6 @@
 ﻿#include "lsUtils.h"
 
+#ifdef LS_USE_CV
 wxBitmap GetBitmap(const wxString &name)
 {
     wxImage image(name, wxBITMAP_TYPE_PNG);
@@ -15,3 +16,4 @@ bool ocv_grayscale(cv::Mat &image)
     cv::cvtColor(image, image, cv::COLOR_GRAY2BGR);
     return true;
 }
+#endif

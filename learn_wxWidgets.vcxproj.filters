@@ -4,69 +4,66 @@
     <Filter Include="src">
       <UniqueIdentifier>{07fbe22b-1a58-4d04-9ddd-f8bbcc070d3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\cg">
+      <UniqueIdentifier>{df744f23-3a72-47b4-914f-4f43e6bdc136}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils">
+      <UniqueIdentifier>{76bce3e5-3f63-4dcb-b7bb-fb87b902cf83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\cv">
+      <UniqueIdentifier>{ac5dcf6b-a67e-4cff-8e2e-38f5fe057262}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\lsApp.cpp">
+    <ClCompile Include="src\app\lsApp.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\lsFrame.cpp">
+    <ClCompile Include="src\app\lsFrame.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\lsUtils.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\utils\lsUtils.cpp">
+      <Filter>src\utils</Filter>
     </ClCompile>
-    <ClCompile Include="src\convertmattowxbmp.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\utils\lsDebug.cpp">
+      <Filter>src\utils</Filter>
     </ClCompile>
-    <ClCompile Include="src\lsDebug.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\cg\lsDrawPanel.cpp">
+      <Filter>src\cg</Filter>
     </ClCompile>
-    <ClCompile Include="src\lsDrawPanel.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\cg\lsLine.cpp">
+      <Filter>src\cg</Filter>
     </ClCompile>
-    <ClCompile Include="src\lsImagePanel.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\cg\lsPainter.cpp">
+      <Filter>src\cg</Filter>
     </ClCompile>
-    <ClCompile Include="src\lsLine.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lsPainter.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lsView.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\cg\lsView.cpp">
+      <Filter>src\cg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\lsApp.h">
+    <ClInclude Include="src\app\lsApp.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\lsFrame.h">
+    <ClInclude Include="src\app\lsFrame.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\lsUtils.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\utils\lsUtils.h">
+      <Filter>src\utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\convertmattowxbmp.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\utils\lsDebug.h">
+      <Filter>src\utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\lsDebug.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\cg\lsDrawPanel.h">
+      <Filter>src\cg</Filter>
     </ClInclude>
-    <ClInclude Include="src\lsDrawPanel.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\cg\lsLine.h">
+      <Filter>src\cg</Filter>
     </ClInclude>
-    <ClInclude Include="src\lsImagePanel.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\cg\lsPainter.h">
+      <Filter>src\cg</Filter>
     </ClInclude>
-    <ClInclude Include="src\lsLine.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lsPainter.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lsView.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\cg\lsView.h">
+      <Filter>src\cg</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

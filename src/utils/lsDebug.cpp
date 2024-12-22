@@ -12,6 +12,8 @@ namespace
     FILE *static_g_logTarget = nullptr;
 }
 
+lsDebug::lsGaobo lsDebug::garbo;
+
 lsDebug::lsDebug()
 {
 }

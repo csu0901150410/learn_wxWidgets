@@ -21,4 +21,15 @@ public:
 
 private:
     lsDebug(); // 私有化构造函数 不允许 lsDebug debug1;
+
+    class lsGaobo // 它的唯一工作就是在析构函数中删除单例实例
+    {
+    public:
+        ~lsGaobo()
+        {
+            if (lsDebug::instance())
+                delete lsDebug::instance();
+        }
+    };
+    static lsGaobo garbo; // 定义一个静态成员，在程序结束时，系统会调用它的析构函数
 };

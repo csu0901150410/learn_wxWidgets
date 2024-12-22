@@ -2,9 +2,12 @@
 #include <wx/numdlg.h>
 
 #include "lsFrame.h"
-#include "lsImagePanel.h"
 #include "lsUtils.h"
 #include "lsDrawPanel.h"
+
+#ifdef LS_USE_CV
+#include "lsImagePanel.h"
+#endif
 
 lsFrame::lsFrame()
 	: wxFrame(nullptr, wxID_ANY, wxT("OCV Image Viewer"), wxDefaultPosition, wxSize(1920, 1080))
@@ -26,8 +29,10 @@ lsFrame::lsFrame()
     wxMenuItem *itemViewConsole = menuView->AppendCheckItem(ID_VIEW_CONSOLE, wxT("显示控制台\tCtrl+`"));
     itemViewConsole->Check(false);
 
+#ifdef LS_USE_CV
     menuView->Append(ID_VIEW_OPEN_CAMERA, wxT("打开摄像头"));
     menuView->Append(ID_VIEW_CLOSE_CAMERA, wxT("关闭摄像头"));
+#endif
 
     menuView->Append(ID_VIEW_REDRAW_CANVAS, wxT("重绘画布\tCtrl+R"));
 
@@ -59,9 +64,11 @@ lsFrame::lsFrame()
         wxArtProvider::GetBitmap(wxART_MINUS, wxART_TOOLBAR), wxT("缩小工作区图像"));
     m_toolBar->SetToolLongHelp(ID_ZOOM_OUT, wxT("缩小工作区图像(快捷键: Ctrl+-)"));
 
+#ifdef LS_USE_CV
 	m_toolBar->AddTool(ID_TOOL_BINARIZE, wxT("二值化"),
 		GetBitmap(wxT("resources/images/icons/add_arc_32.png")), wxT("二值化工作区图像"));
     m_toolBar->SetToolLongHelp(ID_TOOL_BINARIZE, wxT("二值化工作区图像(阈值: 127)"));
+#endif
 
     m_toolBar->AddSeparator();
     m_toolBar->AddTool(ID_VIEW_REDRAW_CANVAS, wxT("重绘画布"),
@@ -81,10 +88,15 @@ lsFrame::lsFrame()
     // 用容器包含画布
     wxPanel *canvasPanel = new wxPanel(m_splitter);
     wxBoxSizer *canvasSizer = new wxBoxSizer(wxVERTICAL);
-	// m_imgpanel = new lsImagePanel(canvasPanel);
-    // canvasSizer->Add(m_imgpanel, 1, wxEXPAND);
+
+#ifdef LS_USE_CV
+	m_imgpanel = new lsImagePanel(canvasPanel);
+    canvasSizer->Add(m_imgpanel, 1, wxEXPAND);
+#else
     m_canvas = new lsDrawPanel(canvasPanel);
     canvasSizer->Add(m_canvas, 1, wxEXPAND);
+#endif
+
     canvasPanel->SetSizer(canvasSizer);
 
     // 控制台
@@ -113,9 +125,12 @@ lsFrame::lsFrame()
     Bind(wxEVT_MENU, &lsFrame::OnExit, this, wxID_EXIT);
     Bind(wxEVT_MENU, &lsFrame::OnViewConsole, this, ID_VIEW_CONSOLE);
 
+#ifdef LS_USE_CV
     Bind(wxEVT_MENU, &lsFrame::OnBinarize, this, ID_TOOL_BINARIZE);
     Bind(wxEVT_MENU, &lsFrame::OnOpenCamera, this, ID_VIEW_OPEN_CAMERA);
     Bind(wxEVT_MENU, &lsFrame::OnCloseCamera, this, ID_VIEW_CLOSE_CAMERA);
+#endif
+
     Bind(wxEVT_MENU, &lsFrame::OnRedrawCanvas, this, ID_VIEW_REDRAW_CANVAS);
 
     // 绑定分隔条事件
@@ -132,6 +147,7 @@ lsFrame::lsFrame()
 
 void lsFrame::OnOpen(wxCommandEvent &event)
 {
+#ifdef LS_USE_CV
 	wxFileDialog openDialog(this, wxT("打开图片文件"), "", "",
 		"图片文件|*.png;*.jpg;*.jpeg;*.bmp|所有文件|*.*",
 		wxFD_OPEN | wxFD_FILE_MUST_EXIST);
@@ -143,10 +159,12 @@ void lsFrame::OnOpen(wxCommandEvent &event)
 	}
 
     Log(wxString::Format(wxT("Load image: %s"), openDialog.GetPath()));
+#endif
 }
 
 void lsFrame::OnSave(wxCommandEvent &event)
 {
+#ifdef LS_USE_CV
     if (!m_imgpanel->HasImage())
     {
         wxMessageBox(wxT("没有可保存的图片！"), wxT("错误"), wxOK | wxICON_ERROR);
@@ -168,6 +186,7 @@ void lsFrame::OnSave(wxCommandEvent &event)
             SetStatusText(wxT("图片已保存至: ") + saveDialog.GetPath());
         }
     }
+#endif
 }
 
 void lsFrame::OnZoomIn(wxCommandEvent &event)
@@ -201,6 +220,7 @@ void lsFrame::OnSplitterSashPosChanged(wxSplitterEvent &event)
     event.Skip();
 }
 
+#ifdef LS_USE_CV
 void lsFrame::OnBinarize(wxCommandEvent &event)
 {
     if (!m_imgpanel->HasImage())
@@ -253,6 +273,7 @@ void lsFrame::OnCloseCamera(wxCommandEvent &event)
     m_imgpanel->CloseCamera();
     Log(wxT("Camera closed!"));
 }
+#endif
 
 void lsFrame::OnRedrawCanvas(wxCommandEvent &event)
 {
