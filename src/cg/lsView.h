@@ -29,6 +29,9 @@ public:
 
     void init_context_info(bool force = false);
 
+    // 太麻烦了这样，要通过父窗口操作绘图后端就得定义这些重复的函数，后续有父窗口持有一个绘图后端的指针
+    void recreate_buffer(int width, int height);
+
 private:
     void draw(const lsLine *line);
 

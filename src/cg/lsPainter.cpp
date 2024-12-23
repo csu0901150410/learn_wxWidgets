@@ -12,16 +12,9 @@ void lsPainter::init_context_info(bool force)
         return;
     m_initialized = true;
 
-    // 获取父窗口大小，计算绘图缓冲区参数
+    // 获取父窗口大小，申请绘图缓冲区
     m_screenSize = m_parent->GetClientSize();
-    m_stride = cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32, m_screenSize.x);
-    m_bufferSize = m_stride * m_screenSize.y;
-
-    // 申请绘图缓冲区内存和转换缓冲区内存
-    wxASSERT(m_bitmapBuffer == nullptr);
-    m_bitmapBuffer = new unsigned char[m_bufferSize];
-    wxASSERT(m_wximageBuffer == nullptr);
-    m_wximageBuffer = new unsigned char[m_screenSize.x * 3 * m_screenSize.y];
+    allocate_buffer();
 }
 
 void lsPainter::begin_paint()
@@ -76,6 +69,37 @@ void lsPainter::end_paint()
     cairo_surface_destroy(m_surface);
     m_surface = nullptr;
 
+    // 释放申请的内存
+    delete[] m_bitmapBuffer;
+    m_bitmapBuffer = nullptr;
+    delete[] m_wximageBuffer;
+    m_wximageBuffer = nullptr;
+}
+
+void lsPainter::recreate_buffer(int width, int height)
+{
+    // 设置好窗口尺寸后，重建绘图缓冲区
+    m_screenSize = wxSize(width, height);
+
+    release_buffer();
+    allocate_buffer();
+}
+
+void lsPainter::allocate_buffer()
+{
+    // 根据窗口尺寸 m_screenSize 申请绘图缓冲区
+    m_stride = cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32, m_screenSize.x);
+    m_bufferSize = m_stride * m_screenSize.y;
+
+    // 申请绘图缓冲区内存和转换缓冲区内存
+    wxASSERT(m_bitmapBuffer == nullptr);
+    m_bitmapBuffer = new unsigned char[m_bufferSize];
+    wxASSERT(m_wximageBuffer == nullptr);
+    m_wximageBuffer = new unsigned char[m_screenSize.x * 3 * m_screenSize.y];
+}
+
+void lsPainter::release_buffer()
+{
     // 释放申请的内存
     delete[] m_bitmapBuffer;
     m_bitmapBuffer = nullptr;

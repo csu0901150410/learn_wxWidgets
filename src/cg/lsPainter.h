@@ -38,6 +38,15 @@ public:
     void begin_paint();
     void end_paint();
 
+    // 重建绘图缓冲区，由外部调用
+    void recreate_buffer(int width, int height);
+
+    // 申请绘图缓存
+    void allocate_buffer();
+
+    // 释放绘图缓存
+    void release_buffer();
+
 // 这些具体的绘制方法可以抽象成绘制接口
 private:
     // Drawing methods

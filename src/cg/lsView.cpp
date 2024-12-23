@@ -23,6 +23,11 @@ void lsView::init_context_info(bool force)
     m_painter->init_context_info(force);
 }
 
+void lsView::recreate_buffer(int width, int height)
+{
+    m_painter->recreate_buffer(width, height);
+}
+
 void lsView::draw(const lsLine *line)
 {
     m_painter->draw(line);
