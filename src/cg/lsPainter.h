@@ -35,6 +35,8 @@ public:
     void draw(const lsLine* line);
 
     void init_context_info(bool force = false);
+    bool is_initialized() const { return m_initialized; }
+
     void begin_paint();
     void end_paint();
 

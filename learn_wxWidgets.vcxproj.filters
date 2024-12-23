@@ -13,6 +13,12 @@
     <Filter Include="src\cv">
       <UniqueIdentifier>{ac5dcf6b-a67e-4cff-8e2e-38f5fe057262}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rdparty">
+      <UniqueIdentifier>{aecbc5fe-4031-49c8-93f6-a9009954ad84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty\tinyxml2">
+      <UniqueIdentifier>{9a9b0ff3-4f0c-4a9d-8121-f0a20109a8d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\app\lsApp.cpp">
@@ -39,6 +45,9 @@
     <ClCompile Include="src\cg\lsView.cpp">
       <Filter>src\cg</Filter>
     </ClCompile>
+    <ClCompile Include="3rdparty\tinyxml2\tinyxml2.cpp">
+      <Filter>3rdparty\tinyxml2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\app\lsApp.h">
@@ -64,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="src\cg\lsView.h">
       <Filter>src\cg</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\tinyxml2\tinyxml2.h">
+      <Filter>3rdparty\tinyxml2</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

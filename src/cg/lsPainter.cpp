@@ -25,7 +25,7 @@ void lsPainter::begin_paint()
     m_context = cairo_create(m_surface);
 
     // 设置线宽和颜色
-    cairo_set_line_width(m_context, 5.0);
+    cairo_set_line_width(m_context, 1.0);
     cairo_set_source_rgba(m_context, 255, 0.0, 0.0, 1.0);
 }
 
@@ -69,15 +69,15 @@ void lsPainter::end_paint()
     cairo_surface_destroy(m_surface);
     m_surface = nullptr;
 
-    // 释放申请的内存
-    delete[] m_bitmapBuffer;
-    m_bitmapBuffer = nullptr;
-    delete[] m_wximageBuffer;
-    m_wximageBuffer = nullptr;
+    release_buffer();
 }
 
 void lsPainter::recreate_buffer(int width, int height)
 {
+    // 未初始化，跳过，主要是跳过未初始化时OnSize的重建，必须在初始化之后才能重建
+    if (!m_initialized)
+        return;
+
     // 设置好窗口尺寸后，重建绘图缓冲区
     m_screenSize = wxSize(width, height);
 
