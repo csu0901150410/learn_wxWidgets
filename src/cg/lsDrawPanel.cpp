@@ -77,7 +77,7 @@ void lsDrawPanel::generate_random_entitys()
     float ymin = 0;
     float ymax = clientSize.y;
 
-    for (int i = 0; i < 10000; i++)
+    for (int i = 0; i < 100; i++)
     {
         m_view->add(random_line(xmin, xmax, ymin, ymax));
     }

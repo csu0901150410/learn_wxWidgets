@@ -68,8 +68,6 @@ void lsPainter::end_paint()
     m_context = nullptr;
     cairo_surface_destroy(m_surface);
     m_surface = nullptr;
-
-    release_buffer();
 }
 
 void lsPainter::recreate_buffer(int width, int height)
