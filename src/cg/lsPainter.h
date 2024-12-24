@@ -13,22 +13,11 @@ public:
         , m_context(nullptr)
         , m_initialized(false)
     {
-        // bug - 这里的时候父窗口还未完全初始化，获取的尺寸是错的，要更改获取这些信息的时机
-        // 由窗口去维护context会比较好
-        // // 获取父窗口大小，计算绘图缓冲区参数
-        // m_screenSize = parent->GetClientSize();
-        // m_stride = cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32, m_screenSize.x);
-        // m_bufferSize = m_stride * m_screenSize.y;
-
-        // // 申请绘图缓冲区内存和转换缓冲区内存
-        // wxASSERT(m_bitmapBuffer == nullptr);
-        // m_bitmapBuffer = new unsigned char[m_bufferSize];
-        // wxASSERT(m_wximageBuffer == nullptr);
-        // m_wximageBuffer = new unsigned char[m_screenSize.x * 3 * m_screenSize.y];
     }
 
     ~lsPainter()
     {
+        release_buffer();
     }
 
     // 统一的绘制接口，lsLine可以理解为后续的基类lsEntity
