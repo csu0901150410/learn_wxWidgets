@@ -48,6 +48,9 @@
     <ClCompile Include="3rdparty\tinyxml2\tinyxml2.cpp">
       <Filter>3rdparty\tinyxml2</Filter>
     </ClCompile>
+    <ClCompile Include="src\cg\lsContext.cpp">
+      <Filter>src\cg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\app\lsApp.h">
@@ -76,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="3rdparty\tinyxml2\tinyxml2.h">
       <Filter>3rdparty\tinyxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cg\lsContext.h">
+      <Filter>src\cg</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

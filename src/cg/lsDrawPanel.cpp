@@ -9,13 +9,11 @@
 lsDrawPanel::lsDrawPanel(wxWindow *parent)
     : wxScrolledCanvas(parent)
 {
-    SetBackgroundColour(*wxBLACK);
+    m_context = new lsContext(this);
 
     m_view = new lsView(this);
     // m_view->add(lsLine(100, 200, 200, 300));
-
-    // 初始化绘图后端，即context，上下文
-    // m_view->init_context_info();
+    m_view->m_painter->set_context(m_context);
 
     Bind(wxEVT_PAINT, &lsDrawPanel::OnPaint, this);
     Bind(wxEVT_SIZE, &lsDrawPanel::OnSize, this);
@@ -25,11 +23,7 @@ lsDrawPanel::lsDrawPanel(wxWindow *parent)
 lsDrawPanel::~lsDrawPanel()
 {
     delete m_view;
-}
-
-void lsDrawPanel::recreate_buffer(int width, int height)
-{
-    m_view->recreate_buffer(width, height);
+    delete m_context;
 }
 
 void lsDrawPanel::parse_svg()
@@ -83,18 +77,21 @@ void lsDrawPanel::generate_random_entitys()
     }
 }
 
+// ugly
+static int g_repaint_count = 0;
+
 void lsDrawPanel::OnPaint(wxPaintEvent &event)
 {
     // cairo backend
     // https://www.cairographics.org/
     // https://github.com/preshing/cairo-windows
 
-    if (!m_view->m_painter->is_initialized())
+    if (0 == g_repaint_count)
     {
-        // 绘图后端初始化时，窗口尺寸已经确定了，此时可以生成测试数据
+        g_repaint_count++;
+        // 第一次OnPaint，窗口尺寸稳定了，生成随机线段
         generate_random_entitys();
     }
-    m_view->init_context_info();
 
     do_repaint();
 }
@@ -103,8 +100,9 @@ void lsDrawPanel::OnSize(wxSizeEvent &event)
 {
     // 窗口尺寸变化的时候，重建绘图后端的缓冲区
     // 初始化的时候要有好几个OnSize才变为最终的尺寸
+    // 这里相当于依赖了先到来的消息是OnSize并重建（创建）了缓冲区
     wxSize clientSize = GetClientSize();
-    recreate_buffer(clientSize.x, clientSize.y);
+    m_context->resize_screen(clientSize.x, clientSize.y);
 }
 
 void lsDrawPanel::OnIdle(wxIdleEvent &event)
@@ -114,5 +112,10 @@ void lsDrawPanel::OnIdle(wxIdleEvent &event)
 
 void lsDrawPanel::do_repaint()
 {
+    // 先beginpaint，不然context没申请就gg
+    m_context->begin_paint();
+
     m_view->redraw();
+
+    m_context->end_paint();
 }

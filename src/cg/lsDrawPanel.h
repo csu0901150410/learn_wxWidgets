@@ -6,6 +6,7 @@
 #include <mutex>
 
 #include "lsView.h"
+#include "lsContext.h"
 
 // 图形绘图面板
 class lsDrawPanel : public wxScrolledCanvas
@@ -14,8 +15,6 @@ public:
     lsDrawPanel(wxWindow* parent);
 
     ~lsDrawPanel();
-
-    void recreate_buffer(int width, int height);
 
     void parse_svg();
 
@@ -32,4 +31,6 @@ private:
 
 public:
     lsView* m_view;
+
+    lsContext *m_context;
 };

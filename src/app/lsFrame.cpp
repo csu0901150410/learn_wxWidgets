@@ -25,16 +25,12 @@ lsFrame::lsFrame()
     wxMenu* menuView = new wxMenu;
     menuView->Append(ID_ZOOM_IN, wxT("放大\tCtrl++"));
     menuView->Append(ID_ZOOM_OUT, wxT("缩小\tCtrl+-"));
-
-    wxMenuItem *itemViewConsole = menuView->AppendCheckItem(ID_VIEW_CONSOLE, wxT("显示控制台\tCtrl+`"));
-    itemViewConsole->Check(false);
+    menuView->Append(ID_VIEW_REDRAW_CANVAS, wxT("重绘画布\tCtrl+R"));
 
 #ifdef LS_USE_CV
     menuView->Append(ID_VIEW_OPEN_CAMERA, wxT("打开摄像头"));
     menuView->Append(ID_VIEW_CLOSE_CAMERA, wxT("关闭摄像头"));
 #endif
-
-    menuView->Append(ID_VIEW_REDRAW_CANVAS, wxT("重绘画布\tCtrl+R"));
 
     wxMenu* menuHelp = new wxMenu;
     menuHelp->Append(wxID_ABOUT, wxT("关于"));
@@ -80,41 +76,21 @@ lsFrame::lsFrame()
     CreateStatusBar();
     SetStatusText(wxT("就绪"));
 
-    // 分隔器
-    m_splitter = new wxSplitterWindow(this, wxID_ANY,
-                                    wxDefaultPosition, wxDefaultSize,
-                                    wxSP_3D | wxSP_LIVE_UPDATE);
 
     // 用容器包含画布
-    wxPanel *canvasPanel = new wxPanel(m_splitter);
     wxBoxSizer *canvasSizer = new wxBoxSizer(wxVERTICAL);
 
 #ifdef LS_USE_CV
-	m_imgpanel = new lsImagePanel(canvasPanel);
+	m_imgpanel = new lsImagePanel(this);
     canvasSizer->Add(m_imgpanel, 1, wxEXPAND);
 #else
-    m_canvas = new lsDrawPanel(canvasPanel);
+    m_canvas = new lsDrawPanel(this);
     canvasSizer->Add(m_canvas, 1, wxEXPAND);
 #endif
 
-    canvasPanel->SetSizer(canvasSizer);
-
-    // 控制台
-    m_console = new wxTextCtrl(m_splitter, wxID_ANY, wxEmptyString,
-                            wxDefaultPosition, wxSize(-1, m_lastSashPosition),
-                            wxTE_MULTILINE | wxTE_READONLY | wxTE_RICH2);
-    m_console->SetBackgroundColour(wxColor(53, 53, 53));
-    m_console->SetForegroundColour(wxColor(0, 255, 0));
-    m_console->Show(false);
-
-    m_splitter->SplitHorizontally(canvasPanel, m_console, -m_lastSashPosition);
-    m_splitter->SetMinimumPaneSize(150);
-    m_splitter->SetSashGravity(0.5);
-
     // 主界面布局
-    wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
-    mainSizer->Add(m_splitter, 1, wxEXPAND);
-    SetSizer(mainSizer);
+    SetSizer(canvasSizer);
+    // Centre();
 
 	// 绑定事件处理函数
 	Bind(wxEVT_MENU, &lsFrame::OnOpen, this, wxID_OPEN);
@@ -123,26 +99,12 @@ lsFrame::lsFrame()
     Bind(wxEVT_MENU, &lsFrame::OnZoomOut, this, ID_ZOOM_OUT);
     Bind(wxEVT_MENU, &lsFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &lsFrame::OnExit, this, wxID_EXIT);
-    Bind(wxEVT_MENU, &lsFrame::OnViewConsole, this, ID_VIEW_CONSOLE);
-
+    Bind(wxEVT_MENU, &lsFrame::OnRedrawCanvas, this, ID_VIEW_REDRAW_CANVAS);
 #ifdef LS_USE_CV
     Bind(wxEVT_MENU, &lsFrame::OnBinarize, this, ID_TOOL_BINARIZE);
     Bind(wxEVT_MENU, &lsFrame::OnOpenCamera, this, ID_VIEW_OPEN_CAMERA);
     Bind(wxEVT_MENU, &lsFrame::OnCloseCamera, this, ID_VIEW_CLOSE_CAMERA);
 #endif
-
-    Bind(wxEVT_MENU, &lsFrame::OnRedrawCanvas, this, ID_VIEW_REDRAW_CANVAS);
-
-    // 绑定分隔条事件
-    m_splitter->Bind(wxEVT_SPLITTER_SASH_POS_CHANGED, 
-                    &lsFrame::OnSplitterSashPosChanged, 
-                    this);
-
-	Centre();
-
-    Log(wxT("lsImagePanel ctor called!"));
-
-    ShowConsole(false);
 }
 
 void lsFrame::OnOpen(wxCommandEvent &event)
@@ -209,16 +171,6 @@ void lsFrame::OnExit(wxCommandEvent &event)
 	Close(true);
 }
 
-void lsFrame::OnViewConsole(wxCommandEvent &event)
-{
-    ShowConsole(event.IsChecked());
-}
-
-void lsFrame::OnSplitterSashPosChanged(wxSplitterEvent &event)
-{
-    m_lastSashPosition = -m_splitter->GetSashPosition();
-    event.Skip();
-}
 
 #ifdef LS_USE_CV
 void lsFrame::OnBinarize(wxCommandEvent &event)
@@ -277,40 +229,4 @@ void lsFrame::OnCloseCamera(wxCommandEvent &event)
 
 void lsFrame::OnRedrawCanvas(wxCommandEvent &event)
 {
-}
-
-void lsFrame::ShowConsole(bool show)
-{
-    if (show)
-    {
-        if (m_splitter->IsSplit())
-            return;
-        
-        wxWindow* upperPanel = m_splitter->GetWindow1();
-        m_splitter->SplitHorizontally(upperPanel, m_console, -m_lastSashPosition);
-    }
-    else
-    {
-        if (!m_splitter->IsSplit())
-            return;
-        m_lastSashPosition = -m_splitter->GetSashPosition();
-        m_splitter->Unsplit(m_console);
-    }
-    Layout();
-}
-
-bool lsFrame::IsConsoleShown() const
-{
-    return m_console ? m_console->IsShown() : false;
-}
-
-void lsFrame::Log(const wxString &message)
-{
-    if (!m_console)
-        return;
-
-    wxDateTime now = wxDateTime::Now();
-    wxString timestamp = now.FormatTime();
-    m_console->AppendText(wxString::Format("[%s] %s\n", timestamp, message));
-    m_console->ShowPosition(m_console->GetLastPosition());
 }
