@@ -80,11 +80,28 @@ void lsContext::end_paint()
     deinit_surface();
 }
 
-void lsContext::draw_line(float sx, float sy, float ex, float ey)
+void lsContext::draw_line(const lsReal& x1, const lsReal& y1, const lsReal& x2, const lsReal& y2)
 {
     // 使用cairo绘制
-    cairo_move_to(m_context, sx, sy);
-    cairo_line_to(m_context, ex, ey);
+    cairo_move_to(m_context, x1, y1);
+    cairo_line_to(m_context, x2, y2);
+    cairo_stroke(m_context);
+}
+
+void lsContext::draw_line(const lsPoint &p1, const lsPoint &p2)
+{
+    draw_line(p1.x, p1.y, p2.x, p2.y);
+}
+
+void lsContext::draw_line(const lsLine &line)
+{
+    draw_line(line.s, line.e);
+}
+
+void lsContext::draw_segment(const lsSegment &seg)
+{
+    cairo_move_to(m_context, seg.s.x, seg.s.y);
+    cairo_line_to(m_context, seg.e.x, seg.e.y);
     cairo_stroke(m_context);
 }
 

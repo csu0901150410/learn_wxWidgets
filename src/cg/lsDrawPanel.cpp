@@ -6,6 +6,8 @@
 
 #include "tinyxml2.h"
 
+#include "lsPoint.h"
+
 lsDrawPanel::lsDrawPanel(wxWindow *parent)
     : wxScrolledCanvas(parent)
 {
@@ -56,13 +58,13 @@ void lsDrawPanel::generate_random_entitys()
     };
 
     // 生成随机线段
-    auto random_line = [&random_float](float xmin, float xmax, float ymin, float ymax) {
-        lsLine line;
-        line.sx = random_float(xmin, xmax);
-        line.sy = random_float(ymin, ymax);
-        line.ex = random_float(xmin, xmax);
-        line.ey = random_float(ymin, ymax);
-        return line;
+    auto random_segment = [&random_float](float xmin, float xmax, float ymin, float ymax) {
+        lsSegment seg;
+        seg.s.x = random_float(xmin, xmax);
+        seg.s.y = random_float(ymin, ymax);
+        seg.e.x = random_float(xmin, xmax);
+        seg.e.y = random_float(ymin, ymax);
+        return seg;
     };
 
     wxSize clientSize = GetClientSize();
@@ -71,10 +73,19 @@ void lsDrawPanel::generate_random_entitys()
     float ymin = 0;
     float ymax = clientSize.y;
 
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 10; i++)
     {
-        m_view->add(random_line(xmin, xmax, ymin, ymax));
+        m_view->add(random_segment(xmin, xmax, ymin, ymax));
     }
+
+    lsSegment left(50, 50, 50, 200);
+    lsSegment top(50, 200, 500, 200);
+    lsSegment right(500, 200, 500, 50);
+    lsSegment bottom(500, 50, 50, 50);
+    m_view->add(left);
+    m_view->add(top);
+    m_view->add(right);
+    m_view->add(bottom);
 }
 
 // ugly

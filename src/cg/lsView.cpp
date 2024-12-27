@@ -1,19 +1,19 @@
 ﻿#include "lsView.h"
 
-void lsView::add(const lsLine &line)
+void lsView::add(const lsSegment &seg)
 {
-    m_entitys.push_back(line);
+    m_entitys.push_back(seg);
 }
 
 void lsView::redraw()
 {
     for (const auto& entity : m_entitys)
     {
-        draw(&entity);
+        draw(entity);
     }
 }
 
-void lsView::draw(const lsLine *line)
+void lsView::draw(const lsSegment& seg)
 {
-    m_painter->draw(line);
+    m_painter->draw(seg);
 }

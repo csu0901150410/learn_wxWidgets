@@ -51,6 +51,12 @@
     <ClCompile Include="src\cg\lsContext.cpp">
       <Filter>src\cg</Filter>
     </ClCompile>
+    <ClCompile Include="src\cg\lsPoint.cpp">
+      <Filter>src\cg</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cg\lsSegment.cpp">
+      <Filter>src\cg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\app\lsApp.h">
@@ -81,6 +87,15 @@
       <Filter>3rdparty\tinyxml2</Filter>
     </ClInclude>
     <ClInclude Include="src\cg\lsContext.h">
+      <Filter>src\cg</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cg\lsCommon.h">
+      <Filter>src\cg</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cg\lsPoint.h">
+      <Filter>src\cg</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cg\lsSegment.h">
       <Filter>src\cg</Filter>
     </ClInclude>
   </ItemGroup>

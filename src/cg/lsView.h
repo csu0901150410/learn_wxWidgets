@@ -8,6 +8,8 @@
 #include <memory>
 
 #include "lsLine.h"
+#include "lsSegment.h"
+
 #include "lsPainter.h"
 
 class lsView
@@ -23,14 +25,14 @@ public:
         delete m_painter;
     }
 
-    void add(const lsLine& line);
+    void add(const lsSegment& seg);
 
     void redraw();
 
 private:
-    void draw(const lsLine *line);
+    void draw(const lsSegment& seg);
 
 public:
-    std::vector<lsLine> m_entitys;
+    std::vector<lsSegment> m_entitys;
     lsPainter *m_painter;
 };

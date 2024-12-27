@@ -1,18 +1,21 @@
 ﻿#pragma once
 
+#include "lsPoint.h"
+
 class lsLine
 {
 public:
-    lsLine() {}
+    lsLine();
 
-    lsLine(float x0, float y0, float x1, float y1)
-        : sx(x0), sy(y0), ex(x1), ey(y1)
-    {
-    }
+    lsLine(const lsReal& sx, const lsReal& sy, const lsReal& ex, const lsReal& ey);
+
+    lsLine(const lsPoint& s, const lsPoint& e);
+
+    lsLine(const lsLine& other);
+
+    ~lsLine() = default;
 
 public:
-    float sx;
-    float sy;
-    float ex;
-    float ey;
+    lsPoint s;
+    lsPoint e;
 };

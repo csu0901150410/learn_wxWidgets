@@ -3,7 +3,7 @@
 #include <wx/wx.h>
 #include <cairo.h>
 
-#include "lsLine.h"
+#include "lsSegment.h"
 #include "lsContext.h"
 
 class lsPainter
@@ -24,8 +24,7 @@ public:
         m_context = context;
     }
 
-    // 统一的绘制接口，lsLine可以理解为后续的基类lsEntity
-    void draw(const lsLine* line);
+    void draw(const lsSegment& seg);
 
 private:
     lsContext *m_context;
