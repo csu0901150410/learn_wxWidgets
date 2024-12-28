@@ -13,6 +13,7 @@
 #include "lsLine.h"
 #include "lsSegment.h"
 
+// 绘图上下文，负责具体绘图后端的实现，在绘图目标（窗口）上进行绘制动作
 class lsContext
 {
 public:

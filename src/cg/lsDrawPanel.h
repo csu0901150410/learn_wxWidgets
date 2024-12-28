@@ -6,9 +6,8 @@
 #include <mutex>
 
 #include "lsView.h"
-#include "lsContext.h"
 
-// 图形绘图面板
+// 图形绘图面板。负责窗口的管理，如显示、尺寸调整、鼠标事件
 class lsDrawPanel : public wxScrolledCanvas
 {
 public:
@@ -31,6 +30,4 @@ private:
 
 public:
     lsView* m_view;
-
-    lsContext *m_context;
 };

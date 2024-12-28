@@ -39,9 +39,6 @@
     <ClCompile Include="src\cg\lsLine.cpp">
       <Filter>src\cg</Filter>
     </ClCompile>
-    <ClCompile Include="src\cg\lsPainter.cpp">
-      <Filter>src\cg</Filter>
-    </ClCompile>
     <ClCompile Include="src\cg\lsView.cpp">
       <Filter>src\cg</Filter>
     </ClCompile>
@@ -81,9 +78,6 @@
       <Filter>src\cg</Filter>
     </ClInclude>
     <ClInclude Include="src\cg\lsLine.h">
-      <Filter>src\cg</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cg\lsPainter.h">
       <Filter>src\cg</Filter>
     </ClInclude>
     <ClInclude Include="src\cg\lsView.h">

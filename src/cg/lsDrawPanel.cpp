@@ -7,15 +7,12 @@
 #include "tinyxml2.h"
 
 #include "lsPoint.h"
+#include "lsSegment.h"
 
 lsDrawPanel::lsDrawPanel(wxWindow *parent)
     : wxScrolledCanvas(parent)
 {
-    m_context = new lsContext(this);
-
     m_view = new lsView(this);
-    // m_view->add(lsLine(100, 200, 200, 300));
-    m_view->m_painter->set_context(m_context);
 
     Bind(wxEVT_PAINT, &lsDrawPanel::OnPaint, this);
     Bind(wxEVT_SIZE, &lsDrawPanel::OnSize, this);
@@ -25,7 +22,6 @@ lsDrawPanel::lsDrawPanel(wxWindow *parent)
 lsDrawPanel::~lsDrawPanel()
 {
     delete m_view;
-    delete m_context;
 }
 
 void lsDrawPanel::parse_svg()
@@ -114,7 +110,7 @@ void lsDrawPanel::OnSize(wxSizeEvent &event)
     // 初始化的时候要有好几个OnSize才变为最终的尺寸
     // 这里相当于依赖了先到来的消息是OnSize并重建（创建）了缓冲区
     wxSize clientSize = GetClientSize();
-    m_context->resize_screen(clientSize.x, clientSize.y);
+    m_view->resize_screen(clientSize.x, clientSize.y);
 }
 
 void lsDrawPanel::OnIdle(wxIdleEvent &event)
@@ -124,10 +120,5 @@ void lsDrawPanel::OnIdle(wxIdleEvent &event)
 
 void lsDrawPanel::do_repaint()
 {
-    // 先beginpaint，不然context没申请就gg
-    m_context->begin_paint();
-
     m_view->redraw();
-
-    m_context->end_paint();
 }
