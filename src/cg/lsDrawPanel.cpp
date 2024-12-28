@@ -75,17 +75,18 @@ void lsDrawPanel::generate_random_entitys()
 
     for (int i = 0; i < 10; i++)
     {
-        m_view->add(random_segment(xmin, xmax, ymin, ymax));
+        lsSegment seg = random_segment(xmin, xmax, ymin, ymax);
+        m_view->add(new lsSegment(seg));
     }
 
     lsSegment left(50, 50, 50, 200);
     lsSegment top(50, 200, 500, 200);
     lsSegment right(500, 200, 500, 50);
     lsSegment bottom(500, 50, 50, 50);
-    m_view->add(left);
-    m_view->add(top);
-    m_view->add(right);
-    m_view->add(bottom);
+    m_view->add(new lsSegment(left));
+    m_view->add(new lsSegment(top));
+    m_view->add(new lsSegment(right));
+    m_view->add(new lsSegment(bottom));
 }
 
 // ugly

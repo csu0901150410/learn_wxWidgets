@@ -2,7 +2,10 @@
 
 #include "lsPoint.h"
 
-class lsSegment
+#include "lsContext.h"
+#include "lsEntity.h"
+
+class lsSegment : public lsEntity
 {
 public:
     lsSegment();
@@ -12,6 +15,10 @@ public:
     lsSegment(const lsPoint& s, const lsPoint& e);
 
     ~lsSegment() = default;
+
+// 实现接口
+public:
+    virtual void draw(lsContext *context) override;
 
 public:
     lsPoint s;

@@ -7,10 +7,8 @@
 #include <vector>
 #include <memory>
 
-#include "lsLine.h"
-#include "lsSegment.h"
-
 #include "lsPainter.h"
+#include "lsEntity.h"
 
 class lsView
 {
@@ -22,17 +20,19 @@ public:
 
     ~lsView()
     {
+        for (auto ent : m_entitys)
+            delete ent;
         delete m_painter;
     }
 
-    void add(const lsSegment& seg);
+    void add(const lsEntity *entity);
 
     void redraw();
 
 private:
-    void draw(const lsSegment& seg);
+    void draw(const lsEntity *entity);
 
 public:
-    std::vector<lsSegment> m_entitys;
+    std::vector<const lsEntity *> m_entitys;// 相当于是由view去管理entity的生命周期
     lsPainter *m_painter;
 };

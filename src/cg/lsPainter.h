@@ -3,8 +3,9 @@
 #include <wx/wx.h>
 #include <cairo.h>
 
-#include "lsSegment.h"
 #include "lsContext.h"
+#include "lsEntity.h"
+
 
 class lsPainter
 {
@@ -24,7 +25,7 @@ public:
         m_context = context;
     }
 
-    void draw(const lsSegment& seg);
+    void draw(const lsEntity *entity);
 
 private:
     lsContext *m_context;

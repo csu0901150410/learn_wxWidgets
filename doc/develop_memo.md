@@ -30,3 +30,6 @@ painter成员，view存放绘图数据，painter提供绘图接口（比如使�
 窗口。我们可以把绘图后端独立出来，使得context和painter解耦。
 
 cairo后端绘图结束时需要通过wxClientDC将bitmap绘制到窗口上，考虑将context类继承于wxWindow。
+
+### 2024122700
+要设计一个图元基类，将图元共同的操作提取到图元基类中，比如绘制接口，这样利用多态可以实现所有图元的绘制。

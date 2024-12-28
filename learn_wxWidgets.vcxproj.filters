@@ -57,6 +57,12 @@
     <ClCompile Include="src\cg\lsSegment.cpp">
       <Filter>src\cg</Filter>
     </ClCompile>
+    <ClCompile Include="src\cg\lsArc.cpp">
+      <Filter>src\cg</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cg\lsEntity.cpp">
+      <Filter>src\cg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\app\lsApp.h">
@@ -96,6 +102,12 @@
       <Filter>src\cg</Filter>
     </ClInclude>
     <ClInclude Include="src\cg\lsSegment.h">
+      <Filter>src\cg</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cg\lsArc.h">
+      <Filter>src\cg</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cg\lsEntity.h">
       <Filter>src\cg</Filter>
     </ClInclude>
   </ItemGroup>

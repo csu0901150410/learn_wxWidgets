@@ -2,7 +2,10 @@
 
 #include "lsPoint.h"
 
-class lsLine
+#include "lsContext.h"
+#include "lsEntity.h"
+
+class lsLine : public lsEntity
 {
 public:
     lsLine();
@@ -14,6 +17,10 @@ public:
     lsLine(const lsLine& other);
 
     ~lsLine() = default;
+
+// 实现接口
+public:
+    virtual void draw(lsContext *context) override;
 
 public:
     lsPoint s;

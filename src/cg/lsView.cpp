@@ -1,8 +1,8 @@
 ﻿#include "lsView.h"
 
-void lsView::add(const lsSegment &seg)
+void lsView::add(const lsEntity *entity)
 {
-    m_entitys.push_back(seg);
+    m_entitys.push_back(entity);
 }
 
 void lsView::redraw()
@@ -13,7 +13,7 @@ void lsView::redraw()
     }
 }
 
-void lsView::draw(const lsSegment& seg)
+void lsView::draw(const lsEntity *entity)
 {
-    m_painter->draw(seg);
+    m_painter->draw(entity);
 }

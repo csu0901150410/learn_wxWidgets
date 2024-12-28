@@ -30,10 +30,8 @@ public:
 // 绘图接口
 public:
     void draw_line(const lsReal& x1, const lsReal& y1, const lsReal& x2, const lsReal& y2);
-    void draw_line(const lsPoint& p1, const lsPoint& p2);
-    void draw_line(const lsLine& line);
 
-    void draw_segment(const lsSegment& seg);
+    void draw_segment(const lsReal& x1, const lsReal& y1, const lsReal& x2, const lsReal& y2);
 
 private:
     void allocate_buffer();

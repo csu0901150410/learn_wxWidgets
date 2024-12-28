@@ -1,7 +1,8 @@
 ﻿#include "lsPainter.h"
 
-void lsPainter::draw(const lsSegment& seg)
+void lsPainter::draw(const lsEntity *entity)
 {
-    // 确定entity类型之后，分发到具体的绘制任务
-    m_context->draw_segment(seg);
+    // 去掉const限定，进行多态调用
+    lsEntity *ptr = const_cast<lsEntity *>(entity);
+    ptr->draw(m_context);
 }

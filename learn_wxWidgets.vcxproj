@@ -140,7 +140,9 @@ xcopy "$(CPP_LIBS)\cairo\lib\x64\cairo.dll" "$(SolutionDir)build\" /s /e /i /d /
   <ItemGroup>
     <ClCompile Include="3rdparty\tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="src\app\lsApp.cpp" />
+    <ClCompile Include="src\cg\lsArc.cpp" />
     <ClCompile Include="src\cg\lsContext.cpp" />
+    <ClCompile Include="src\cg\lsEntity.cpp" />
     <ClCompile Include="src\cg\lsPoint.cpp" />
     <ClCompile Include="src\cg\lsSegment.cpp" />
     <ClCompile Include="src\utils\lsDebug.cpp" />
@@ -154,8 +156,10 @@ xcopy "$(CPP_LIBS)\cairo\lib\x64\cairo.dll" "$(SolutionDir)build\" /s /e /i /d /
   <ItemGroup>
     <ClInclude Include="3rdparty\tinyxml2\tinyxml2.h" />
     <ClInclude Include="src\app\lsApp.h" />
+    <ClInclude Include="src\cg\lsArc.h" />
     <ClInclude Include="src\cg\lsCommon.h" />
     <ClInclude Include="src\cg\lsContext.h" />
+    <ClInclude Include="src\cg\lsEntity.h" />
     <ClInclude Include="src\cg\lsPoint.h" />
     <ClInclude Include="src\cg\lsSegment.h" />
     <ClInclude Include="src\utils\lsDebug.h" />
