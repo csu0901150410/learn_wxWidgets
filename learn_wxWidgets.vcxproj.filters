@@ -19,6 +19,9 @@
     <Filter Include="3rdparty\tinyxml2">
       <UniqueIdentifier>{9a9b0ff3-4f0c-4a9d-8121-f0a20109a8d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rdparty\dxflib">
+      <UniqueIdentifier>{3f8c5ed2-2d84-4177-8fd4-326e7589ed41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\app\lsApp.cpp">
@@ -61,6 +64,15 @@
       <Filter>src\cg</Filter>
     </ClCompile>
     <ClCompile Include="src\cg\lsDocument.cpp">
+      <Filter>src\cg</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\dxflib\dl_dxf.cpp">
+      <Filter>3rdparty\dxflib</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\dxflib\dl_writer_ascii.cpp">
+      <Filter>3rdparty\dxflib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cg\lsDxfReader.cpp">
       <Filter>src\cg</Filter>
     </ClCompile>
   </ItemGroup>
@@ -108,6 +120,42 @@
       <Filter>src\cg</Filter>
     </ClInclude>
     <ClInclude Include="src\cg\lsDocument.h">
+      <Filter>src\cg</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\dxflib\dl_attributes.h">
+      <Filter>3rdparty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\dxflib\dl_codes.h">
+      <Filter>3rdparty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\dxflib\dl_creationadapter.h">
+      <Filter>3rdparty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\dxflib\dl_creationinterface.h">
+      <Filter>3rdparty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\dxflib\dl_dxf.h">
+      <Filter>3rdparty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\dxflib\dl_entities.h">
+      <Filter>3rdparty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\dxflib\dl_exception.h">
+      <Filter>3rdparty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\dxflib\dl_extrusion.h">
+      <Filter>3rdparty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\dxflib\dl_global.h">
+      <Filter>3rdparty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\dxflib\dl_writer.h">
+      <Filter>3rdparty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\dxflib\dl_writer_ascii.h">
+      <Filter>3rdparty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cg\lsDxfReader.h">
       <Filter>src\cg</Filter>
     </ClInclude>
   </ItemGroup>

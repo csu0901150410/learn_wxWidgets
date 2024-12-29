@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(CPP_LIBS)\wxWIdgets\include;$(CPP_LIBS)\wxWidgets\include\msvc;$(CPP_LIBS)\opencv\build\include;$(CPP_LIBS)\cairo\include;$(SolutionDir)src;$(SolutionDir)src\cv;$(SolutionDir)src\cg;$(SolutionDir)src\utils;$(SolutionDir)3rdparty\tinyxml2</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CPP_LIBS)\wxWIdgets\include;$(CPP_LIBS)\wxWidgets\include\msvc;$(CPP_LIBS)\opencv\build\include;$(CPP_LIBS)\cairo\include;$(SolutionDir)src;$(SolutionDir)src\cv;$(SolutionDir)src\cg;$(SolutionDir)src\utils;$(SolutionDir)3rdparty\tinyxml2;$(SolutionDir)3rdparty\dxflib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -138,11 +138,14 @@ xcopy "$(CPP_LIBS)\cairo\lib\x64\cairo.dll" "$(SolutionDir)build\" /s /e /i /d /
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="3rdparty\dxflib\dl_dxf.cpp" />
+    <ClCompile Include="3rdparty\dxflib\dl_writer_ascii.cpp" />
     <ClCompile Include="3rdparty\tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="src\app\lsApp.cpp" />
     <ClCompile Include="src\cg\lsArc.cpp" />
     <ClCompile Include="src\cg\lsContext.cpp" />
     <ClCompile Include="src\cg\lsDocument.cpp" />
+    <ClCompile Include="src\cg\lsDxfReader.cpp" />
     <ClCompile Include="src\cg\lsEntity.cpp" />
     <ClCompile Include="src\cg\lsPoint.cpp" />
     <ClCompile Include="src\cg\lsSegment.cpp" />
@@ -154,12 +157,24 @@ xcopy "$(CPP_LIBS)\cairo\lib\x64\cairo.dll" "$(SolutionDir)build\" /s /e /i /d /
     <ClCompile Include="src\cg\lsView.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="3rdparty\dxflib\dl_attributes.h" />
+    <ClInclude Include="3rdparty\dxflib\dl_codes.h" />
+    <ClInclude Include="3rdparty\dxflib\dl_creationadapter.h" />
+    <ClInclude Include="3rdparty\dxflib\dl_creationinterface.h" />
+    <ClInclude Include="3rdparty\dxflib\dl_dxf.h" />
+    <ClInclude Include="3rdparty\dxflib\dl_entities.h" />
+    <ClInclude Include="3rdparty\dxflib\dl_exception.h" />
+    <ClInclude Include="3rdparty\dxflib\dl_extrusion.h" />
+    <ClInclude Include="3rdparty\dxflib\dl_global.h" />
+    <ClInclude Include="3rdparty\dxflib\dl_writer.h" />
+    <ClInclude Include="3rdparty\dxflib\dl_writer_ascii.h" />
     <ClInclude Include="3rdparty\tinyxml2\tinyxml2.h" />
     <ClInclude Include="src\app\lsApp.h" />
     <ClInclude Include="src\cg\lsArc.h" />
     <ClInclude Include="src\cg\lsCommon.h" />
     <ClInclude Include="src\cg\lsContext.h" />
     <ClInclude Include="src\cg\lsDocument.h" />
+    <ClInclude Include="src\cg\lsDxfReader.h" />
     <ClInclude Include="src\cg\lsEntity.h" />
     <ClInclude Include="src\cg\lsPoint.h" />
     <ClInclude Include="src\cg\lsSegment.h" />

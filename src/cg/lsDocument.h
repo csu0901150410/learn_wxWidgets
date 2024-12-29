@@ -17,7 +17,7 @@ public:
     unsigned long long get_id() const;
 
     // 从文件加载图元数据
-    void open(const std::string &filepath);
+    bool open(const std::string &filepath);
 
     // 释放占用的文件
     void release();

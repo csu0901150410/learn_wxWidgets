@@ -4,6 +4,8 @@
 
 #include "lsEntity.h"
 
+#include "lsDxfReader.h"
+
 lsDocument::lsDocument()
 {
     static unsigned long long idCounter=0;
@@ -63,8 +65,11 @@ unsigned long long lsDocument::get_id() const
     return m_id;
 }
 
-void lsDocument::open(const std::string &filepath)
+bool lsDocument::open(const std::string &filepath)
 {
+    lsDxfReader dxfReader;
+    bool success = dxfReader.import(this, filepath);
+    return success;
 }
 
 void lsDocument::release()

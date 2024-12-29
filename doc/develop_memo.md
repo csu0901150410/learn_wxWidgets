@@ -47,3 +47,9 @@ window类不再直接管理context，改为，window管理view，view管理conte
 由一个document类管理，这个类后续可支持从文件中读取图元。这样，window类管理界面相关逻辑，比如ui控件
 以及事件管理，view类管理视图相关逻辑，比如视口平移以及缩放，context类管理绘图后端相关逻辑，比如具体
 的线段圆弧绘制，document类管理数据相关逻辑，比如数据存取以及索引等。
+
+### 2024122901
+引入dxflib读取dxf文件，加载图元到document中。
+- [dxflib官网页面](https://qcad.org/en/90-dxflib)
+- [dxflib使用指引](https://qcad.org/doc/dxflib/2.5/reference/dxflib-reference-manual.pdf)
+- [DXF示例文件](https://people.math.sc.edu/Burkardt/data/dxf/dxf.html)

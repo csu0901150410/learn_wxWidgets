@@ -6,7 +6,9 @@
 lsView::lsView(wxWindow *parent)
 {
     m_context = new lsContext(parent);
+
     m_document = new lsDocument();
+    m_document->open("resources/models/bridge.dxf");
 }
 
 lsView::~lsView()
