@@ -41,3 +41,9 @@ cairo后端绘图结束时需要通过wxClientDC将bitmap绘制到窗口上，�
 图逻辑就分散在了各个entity子类中，painter其实不再需要了。
 
 window类不再直接管理context，改为，window管理view，view管理context和entity列表。
+
+### 2024122900
+有时候，程序运行并不需要界面，比如在命令行模式下，也应该能够访问到图元数据，所以，把entity列表拎出来
+由一个document类管理，这个类后续可支持从文件中读取图元。这样，window类管理界面相关逻辑，比如ui控件
+以及事件管理，view类管理视图相关逻辑，比如视口平移以及缩放，context类管理绘图后端相关逻辑，比如具体
+的线段圆弧绘制，document类管理数据相关逻辑，比如数据存取以及索引等。

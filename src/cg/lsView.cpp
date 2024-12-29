@@ -1,22 +1,18 @@
 ﻿#include "lsView.h"
 
 #include "lsContext.h"
+#include "lsDocument.h"
 
 lsView::lsView(wxWindow *parent)
 {
     m_context = new lsContext(parent);
+    m_document = new lsDocument();
 }
 
 lsView::~lsView()
 {
-    for (auto ent : m_entitys)
-        delete ent;
     delete m_context;
-}
-
-void lsView::add(const lsEntity *entity)
-{
-    m_entitys.push_back(entity);
+    delete m_document;
 }
 
 void lsView::redraw()
@@ -24,7 +20,9 @@ void lsView::redraw()
     // 先beginpaint，不然context没申请就gg
     m_context->begin_paint();
 
-    for (const auto& entity : m_entitys)
+    std::vector<const lsEntity *> entitys;
+    m_document->get_entitys(entitys);
+    for (const auto& entity : entitys)
     {
         draw(entity);
     }

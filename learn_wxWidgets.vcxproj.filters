@@ -60,6 +60,9 @@
     <ClCompile Include="src\cg\lsEntity.cpp">
       <Filter>src\cg</Filter>
     </ClCompile>
+    <ClCompile Include="src\cg\lsDocument.cpp">
+      <Filter>src\cg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\app\lsApp.h">
@@ -102,6 +105,9 @@
       <Filter>src\cg</Filter>
     </ClInclude>
     <ClInclude Include="src\cg\lsEntity.h">
+      <Filter>src\cg</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cg\lsDocument.h">
       <Filter>src\cg</Filter>
     </ClInclude>
   </ItemGroup>

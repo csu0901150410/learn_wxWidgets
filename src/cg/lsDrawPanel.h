@@ -17,8 +17,6 @@ public:
 
     void parse_svg();
 
-    void generate_random_entitys();
-
 // Event handlers
 private:
     void OnPaint(wxPaintEvent& event);
