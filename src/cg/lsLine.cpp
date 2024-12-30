@@ -1,5 +1,7 @@
 ﻿#include "lsLine.h"
 
+#include "lsBoundbox.h"
+
 lsLine::lsLine()
     : lsEntity()
     , s(lsPoint())
@@ -31,4 +33,14 @@ lsLine::lsLine(const lsLine &other)
 void lsLine::draw(lsContext *context)
 {
     context->draw_line(s.x, s.y, e.x, e.y);
+}
+
+lsBoundbox lsLine::get_boundbox() const
+{
+    lsBoundbox box;
+    box.left = std::min(s.x, e.x);
+    box.right = std::max(s.x, e.x);
+    box.bottom = std::min(s.y, e.y);
+    box.top = std::max(s.y, e.y);
+    return box;
 }

@@ -11,7 +11,7 @@ lsDocument::lsDocument()
     static unsigned long long idCounter=0;
     m_id = idCounter++;
 
-    test_init_entitys();
+    // test_init_entitys();
 }
 
 lsDocument::~lsDocument()

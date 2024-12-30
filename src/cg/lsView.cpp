@@ -3,12 +3,28 @@
 #include "lsContext.h"
 #include "lsDocument.h"
 
+#include "lsBoundbox.h"
+
 lsView::lsView(wxWindow *parent)
 {
     m_context = new lsContext(parent);
 
     m_document = new lsDocument();
     m_document->open("resources/models/bridge.dxf");
+
+    // 计算一个box显示出来
+    std::vector<const lsEntity *> entitys;
+    m_document->get_entitys(entitys);
+
+    lsBoundbox box;
+    for (const auto& entity : entitys)
+    {
+        box.combine(entity->get_boundbox());
+    }
+    m_document->add(new lsSegment(lsPoint(box.left, box.bottom), lsPoint(box.left, box.top)));
+    m_document->add(new lsSegment(lsPoint(box.left, box.top), lsPoint(box.right, box.top)));
+    m_document->add(new lsSegment(lsPoint(box.right, box.top), lsPoint(box.right, box.bottom)));
+    m_document->add(new lsSegment(lsPoint(box.right, box.bottom), lsPoint(box.left, box.bottom)));
 }
 
 lsView::~lsView()

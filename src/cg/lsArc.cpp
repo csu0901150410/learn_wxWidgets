@@ -1,5 +1,7 @@
 ﻿#include "lsArc.h"
 
+#include "lsBoundbox.h"
+
 lsArc::lsArc()
     : lsEntity()
     , c(0, 0), ccw(true), e(0, 0), s(0, 0)
@@ -14,4 +16,9 @@ lsArc::lsArc(const lsPoint &s, const lsPoint &e, const lsPoint &c, bool ccw)
 
 void lsArc::draw(lsContext *context)
 {
+}
+
+lsBoundbox lsArc::get_boundbox() const
+{
+    return lsBoundbox();
 }

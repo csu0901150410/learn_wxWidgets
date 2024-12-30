@@ -143,6 +143,7 @@ xcopy "$(CPP_LIBS)\cairo\lib\x64\cairo.dll" "$(SolutionDir)build\" /s /e /i /d /
     <ClCompile Include="3rdparty\tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="src\app\lsApp.cpp" />
     <ClCompile Include="src\cg\lsArc.cpp" />
+    <ClCompile Include="src\cg\lsBoundbox.cpp" />
     <ClCompile Include="src\cg\lsContext.cpp" />
     <ClCompile Include="src\cg\lsDocument.cpp" />
     <ClCompile Include="src\cg\lsDxfReader.cpp" />
@@ -171,6 +172,7 @@ xcopy "$(CPP_LIBS)\cairo\lib\x64\cairo.dll" "$(SolutionDir)build\" /s /e /i /d /
     <ClInclude Include="3rdparty\tinyxml2\tinyxml2.h" />
     <ClInclude Include="src\app\lsApp.h" />
     <ClInclude Include="src\cg\lsArc.h" />
+    <ClInclude Include="src\cg\lsBoundbox.h" />
     <ClInclude Include="src\cg\lsCommon.h" />
     <ClInclude Include="src\cg\lsContext.h" />
     <ClInclude Include="src\cg\lsDocument.h" />

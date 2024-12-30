@@ -75,6 +75,9 @@
     <ClCompile Include="src\cg\lsDxfReader.cpp">
       <Filter>src\cg</Filter>
     </ClCompile>
+    <ClCompile Include="src\cg\lsBoundbox.cpp">
+      <Filter>src\cg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\app\lsApp.h">
@@ -156,6 +159,9 @@
       <Filter>3rdparty\dxflib</Filter>
     </ClInclude>
     <ClInclude Include="src\cg\lsDxfReader.h">
+      <Filter>src\cg</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cg\lsBoundbox.h">
       <Filter>src\cg</Filter>
     </ClInclude>
   </ItemGroup>

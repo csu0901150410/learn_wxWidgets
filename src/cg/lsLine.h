@@ -5,6 +5,8 @@
 #include "lsContext.h"
 #include "lsEntity.h"
 
+class lsBoundbox;
+
 class lsLine : public lsEntity
 {
 public:
@@ -21,6 +23,8 @@ public:
 // 实现接口
 public:
     virtual void draw(lsContext *context) override;
+
+    virtual lsBoundbox get_boundbox() const override;
 
 public:
     lsPoint s;

@@ -1,5 +1,8 @@
 ﻿#include "lsSegment.h"
 
+#include "lsBoundbox.h"
+
+
 lsSegment::lsSegment()
     : lsEntity()
     , e(0, 0)
@@ -24,4 +27,14 @@ lsSegment::lsSegment(const lsPoint &s, const lsPoint &e)
 void lsSegment::draw(lsContext *context)
 {
     context->draw_segment(s.x, s.y, e.x, e.y);
+}
+
+lsBoundbox lsSegment::get_boundbox() const
+{
+    lsBoundbox box;
+    box.left = std::min(s.x, e.x);
+    box.right = std::max(s.x, e.x);
+    box.bottom = std::min(s.y, e.y);
+    box.top = std::max(s.y, e.y);
+    return box;
 }
