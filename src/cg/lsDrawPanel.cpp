@@ -17,6 +17,8 @@ lsDrawPanel::lsDrawPanel(wxWindow *parent)
     Bind(wxEVT_PAINT, &lsDrawPanel::OnPaint, this);
     Bind(wxEVT_SIZE, &lsDrawPanel::OnSize, this);
     Bind(wxEVT_IDLE, &lsDrawPanel::OnIdle, this);
+
+    Bind(wxEVT_MOUSEWHEEL, &lsDrawPanel::OnMouseWheel, this);
 }
 
 lsDrawPanel::~lsDrawPanel()
@@ -66,6 +68,22 @@ void lsDrawPanel::OnSize(wxSizeEvent &event)
 void lsDrawPanel::OnIdle(wxIdleEvent &event)
 {
     event.Skip();
+}
+
+void lsDrawPanel::OnMouseWheel(wxMouseEvent &event)
+{
+    int delta = event.GetWheelRotation();
+    int x = event.GetX();
+    int y = event.GetY();
+
+    if (delta > 0)
+    {
+        m_view->zoom_in(x, y);
+    }
+    else
+    {
+        m_view->zoom_out(x, y);
+    }
 }
 
 void lsDrawPanel::do_repaint()

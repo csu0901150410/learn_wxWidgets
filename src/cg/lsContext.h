@@ -23,10 +23,14 @@ public:
     void begin_paint();
     void end_paint();
 
+// 变换接口
+public:
+    void set_world2screen_matrix(const cairo_matrix_t &matrix);
+    cairo_matrix_t get_world2screen_matrix() const;
+    cairo_matrix_t get_screen2world_matrix() const;
+
 // 绘图接口
 public:
-    void draw_line(const lsReal& x1, const lsReal& y1, const lsReal& x2, const lsReal& y2);
-
     void draw_segment(const lsReal& x1, const lsReal& y1, const lsReal& x2, const lsReal& y2);
 
 private:
@@ -35,6 +39,8 @@ private:
 
     void init_surface();
     void deinit_surface();
+
+    lsPoint transform(const lsPoint& point);
 
 private:
     cairo_t *m_context;
@@ -50,6 +56,8 @@ private:
     int m_stride;// 对齐后的缓冲区宽度
 
     bool m_initialized;// 标记cairo对象是否创建，保证不重复创建和释放
+
+    cairo_matrix_t m_matrixWorld2Screen;// 世界坐标系到屏幕坐标系的变换矩阵
 
     lsRenderTarget *m_target;
 };

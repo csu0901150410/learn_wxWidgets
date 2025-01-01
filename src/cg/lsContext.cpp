@@ -10,6 +10,7 @@ lsContext::lsContext(lsRenderTarget *target)
     , m_wximageBuffer(nullptr)
     , m_initialized(false)
 {
+    cairo_matrix_init_identity(&m_matrixWorld2Screen);
 }
 
 lsContext::~lsContext()
@@ -78,18 +79,30 @@ void lsContext::end_paint()
     deinit_surface();
 }
 
-void lsContext::draw_line(const lsReal& x1, const lsReal& y1, const lsReal& x2, const lsReal& y2)
+void lsContext::set_world2screen_matrix(const cairo_matrix_t &matrix)
 {
-    // 使用cairo绘制
-    cairo_move_to(m_context, x1, y1);
-    cairo_line_to(m_context, x2, y2);
-    cairo_stroke(m_context);
+    m_matrixWorld2Screen = matrix;
+}
+
+cairo_matrix_t lsContext::get_world2screen_matrix() const
+{
+    return m_matrixWorld2Screen;
+}
+
+cairo_matrix_t lsContext::get_screen2world_matrix() const
+{
+    cairo_matrix_t mat = m_matrixWorld2Screen;
+    cairo_matrix_invert(&mat);
+    return mat;
 }
 
 void lsContext::draw_segment(const lsReal &x1, const lsReal &y1, const lsReal &x2, const lsReal &y2)
 {
-    cairo_move_to(m_context, x1, y1);
-    cairo_line_to(m_context, x2, y2);
+    lsPoint p1 = transform(lsPoint(x1, y1));
+    lsPoint p2 = transform(lsPoint(x2, y2));
+
+    cairo_move_to(m_context, p1.x, p1.y);
+    cairo_line_to(m_context, p2.x, p2.y);
     cairo_stroke(m_context);
 }
 
@@ -140,4 +153,13 @@ void lsContext::deinit_surface()
     m_surface = nullptr;
 
     m_initialized = false;
+}
+
+// see https://www.cairographics.org/manual/cairo-cairo-matrix-t.html Description
+lsPoint lsContext::transform(const lsPoint &point)
+{
+    lsPoint ret;
+    ret.x = m_matrixWorld2Screen.xx * point.x + m_matrixWorld2Screen.xy * point.y + m_matrixWorld2Screen.x0;
+    ret.y = m_matrixWorld2Screen.yx * point.x + m_matrixWorld2Screen.yy * point.y + m_matrixWorld2Screen.y0;
+    return ret;
 }

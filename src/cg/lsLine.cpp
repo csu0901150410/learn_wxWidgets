@@ -32,7 +32,7 @@ lsLine::lsLine(const lsLine &other)
 
 void lsLine::draw(lsContext *context)
 {
-    context->draw_line(s.x, s.y, e.x, e.y);
+    
 }
 
 lsBoundbox lsLine::get_boundbox() const
