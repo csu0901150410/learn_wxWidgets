@@ -2,22 +2,17 @@
 
 #include <cairo.h>
 
-#include <wx/wx.h>
-// #include <wx/image.h>
-// #include <wx/dcmemory.h>
-// #include <wx/dcclient.h>
-// #include <wx/msw/window.h>
-// #include <wx/msw/bitmap.h>
-
 #include "lsPoint.h"
 #include "lsLine.h"
 #include "lsSegment.h"
+
+class lsRenderTarget;
 
 // 绘图上下文，负责具体绘图后端的实现，在绘图目标（窗口）上进行绘制动作
 class lsContext
 {
 public:
-    lsContext(wxWindow *parent);
+    lsContext(lsRenderTarget *target);
     ~lsContext();
 
     // 屏幕尺寸变换，需要重新申请缓冲区
@@ -56,5 +51,5 @@ private:
 
     bool m_initialized;// 标记cairo对象是否创建，保证不重复创建和释放
 
-    wxWindow *m_parent;
+    lsRenderTarget *m_target;
 };

@@ -5,18 +5,18 @@
 
 #include "lsBoundbox.h"
 
+#include "lsScreenRenderTarget.h"
+
 lsView::lsView(wxWindow *parent)
 {
-    m_context = new lsContext(parent);
+    m_context = new lsContext(new lsScreenRenderTarget(parent));
 
     m_document = new lsDocument();
     m_document->open("resources/models/bridge.dxf");
 
     // 计算一个box显示出来
-    std::vector<const lsEntity *> entitys;
-    m_document->get_entitys(entitys);
-
     lsBoundbox box;
+    std::vector<const lsEntity *> entitys = m_document->get_entitys();
     for (const auto& entity : entitys)
     {
         box.combine(entity->get_boundbox());
@@ -38,8 +38,7 @@ void lsView::redraw()
     // 先beginpaint，不然context没申请就gg
     m_context->begin_paint();
 
-    std::vector<const lsEntity *> entitys;
-    m_document->get_entitys(entitys);
+    std::vector<const lsEntity *> entitys = m_document->get_entitys();
     for (const auto& entity : entitys)
     {
         draw(entity);

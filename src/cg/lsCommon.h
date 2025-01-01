@@ -2,6 +2,8 @@
 
 #include "lsDebug.h"
 
+#include <algorithm>
+
 typedef double lsReal;
 
 #define LSMAX 1E300

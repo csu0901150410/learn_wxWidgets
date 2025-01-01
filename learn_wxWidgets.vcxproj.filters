@@ -78,6 +78,12 @@
     <ClCompile Include="src\cg\lsBoundbox.cpp">
       <Filter>src\cg</Filter>
     </ClCompile>
+    <ClCompile Include="src\cg\lsRenderTarget.cpp">
+      <Filter>src\cg</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cg\lsScreenRenderTarget.cpp">
+      <Filter>src\cg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\app\lsApp.h">
@@ -162,6 +168,12 @@
       <Filter>src\cg</Filter>
     </ClInclude>
     <ClInclude Include="src\cg\lsBoundbox.h">
+      <Filter>src\cg</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cg\lsRenderTarget.h">
+      <Filter>src\cg</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cg\lsScreenRenderTarget.h">
       <Filter>src\cg</Filter>
     </ClInclude>
   </ItemGroup>

@@ -149,6 +149,8 @@ xcopy "$(CPP_LIBS)\cairo\lib\x64\cairo.dll" "$(SolutionDir)build\" /s /e /i /d /
     <ClCompile Include="src\cg\lsDxfReader.cpp" />
     <ClCompile Include="src\cg\lsEntity.cpp" />
     <ClCompile Include="src\cg\lsPoint.cpp" />
+    <ClCompile Include="src\cg\lsRenderTarget.cpp" />
+    <ClCompile Include="src\cg\lsScreenRenderTarget.cpp" />
     <ClCompile Include="src\cg\lsSegment.cpp" />
     <ClCompile Include="src\utils\lsDebug.cpp" />
     <ClCompile Include="src\cg\lsDrawPanel.cpp" />
@@ -179,6 +181,8 @@ xcopy "$(CPP_LIBS)\cairo\lib\x64\cairo.dll" "$(SolutionDir)build\" /s /e /i /d /
     <ClInclude Include="src\cg\lsDxfReader.h" />
     <ClInclude Include="src\cg\lsEntity.h" />
     <ClInclude Include="src\cg\lsPoint.h" />
+    <ClInclude Include="src\cg\lsRenderTarget.h" />
+    <ClInclude Include="src\cg\lsScreenRenderTarget.h" />
     <ClInclude Include="src\cg\lsSegment.h" />
     <ClInclude Include="src\utils\lsDebug.h" />
     <ClInclude Include="src\cg\lsDrawPanel.h" />

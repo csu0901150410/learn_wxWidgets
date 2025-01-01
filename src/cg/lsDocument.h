@@ -26,7 +26,7 @@ public:
     void add(const lsEntity* entity);
 
     // 获取图元列表
-    void get_entitys(std::vector<const lsEntity*>& entitys);
+    std::vector<const lsEntity*>& get_entitys();
 
 private:
     unsigned long long m_id;

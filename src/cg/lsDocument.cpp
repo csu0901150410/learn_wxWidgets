@@ -81,7 +81,7 @@ void lsDocument::add(const lsEntity *entity)
     m_entitys.push_back(entity);
 }
 
-void lsDocument::get_entitys(std::vector<const lsEntity *> &entitys)
+std::vector<const lsEntity*>& lsDocument::get_entitys()
 {
-    entitys = m_entitys;
+    return m_entitys;
 }

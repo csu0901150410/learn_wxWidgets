@@ -2,8 +2,10 @@
 
 #include <assert.h>
 
-lsContext::lsContext(wxWindow *parent)
-    : m_parent(parent)
+#include "lsRenderTarget.h"
+
+lsContext::lsContext(lsRenderTarget *target)
+    : m_target(target)
     , m_bitmapBuffer(nullptr)
     , m_wximageBuffer(nullptr)
     , m_initialized(false)
@@ -12,6 +14,8 @@ lsContext::lsContext(wxWindow *parent)
 
 lsContext::~lsContext()
 {
+    delete m_target;
+
     release_buffer();
 }
 
@@ -69,13 +73,7 @@ void lsContext::end_paint()
         srcRow += stride;
     }
 
-    wxImage img(screenWidth, screenHeight, m_wximageBuffer, true);
-    wxBitmap bmp(img);
-    wxMemoryDC mdc(bmp);
-    wxClientDC clientDC(m_parent);
-
-    // 绘制到ClientDC
-    clientDC.Blit(0, 0, screenWidth, screenHeight, &mdc, 0, 0, wxCOPY);
+    m_target->render(m_wximageBuffer, screenWidth, screenHeight, stride);
 
     deinit_surface();
 }
