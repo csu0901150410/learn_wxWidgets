@@ -11,6 +11,15 @@ lsContext::lsContext(lsRenderTarget *target)
     , m_initialized(false)
 {
     cairo_matrix_init_identity(&m_matrixWorld2Screen);
+    cairo_matrix_init_identity(&m_matrixScreen2World);
+
+    m_origin = lsPoint(0, 0);
+    m_scale = 1.0;
+    m_rotation = 0;
+    m_flipx = false;
+    m_flipy = false;
+
+    update_matrix();
 }
 
 lsContext::~lsContext()
@@ -94,6 +103,72 @@ cairo_matrix_t lsContext::get_screen2world_matrix() const
     cairo_matrix_t mat = m_matrixWorld2Screen;
     cairo_matrix_invert(&mat);
     return mat;
+}
+
+lsPoint lsContext::screen2world(lsPoint pos)
+{
+    lsPoint ret = pos;
+    cairo_matrix_transform_point(&m_matrixScreen2World, &ret.x, &ret.y);
+    return ret;
+}
+
+lsPoint lsContext::world2screen(lsPoint pos)
+{
+    lsPoint ret = pos;
+    cairo_matrix_transform_point(&m_matrixWorld2Screen, &ret.x, &ret.y);
+    return ret;
+}
+
+// 重新计算变换矩阵
+void lsContext::update_matrix()
+{
+    // 计算世界坐标系到屏幕坐标系的变换矩阵，再求逆得到screen -> world
+
+    // 缩放矩阵，世界距离 * m_scale = 屏幕距离
+    cairo_matrix_t scale;
+    cairo_matrix_init_scale(&scale, m_scale, m_scale);
+
+    // 旋转矩阵
+    cairo_matrix_t rotation;
+    cairo_matrix_init_rotate(&rotation, m_rotation);
+
+    // 平移矩阵，世界坐标系原点平移到屏幕坐标系的原点
+    cairo_matrix_t translation;
+    cairo_matrix_init_translate(&translation, m_origin.x, m_origin.y);
+
+    // 翻转
+    cairo_matrix_t flip;
+    cairo_matrix_init_scale(&flip, m_flipx ? -1.0 : 1.0, m_flipy ? -1.0 : 1.0);
+    cairo_matrix_translate(&flip, m_flipx ? -m_screenWidth : 0, m_flipy ? -m_screenHeight : 0);
+
+    cairo_matrix_t matrix;
+    cairo_matrix_init_identity(&matrix);
+    cairo_matrix_multiply(&matrix, &scale, &matrix);
+    cairo_matrix_multiply(&matrix, &rotation, &matrix);
+    cairo_matrix_multiply(&matrix, &translation, &matrix);
+    cairo_matrix_multiply(&matrix, &flip, &matrix);
+
+    m_matrixWorld2Screen = matrix;
+    m_matrixScreen2World = matrix;
+    cairo_matrix_invert(&m_matrixScreen2World);
+}
+
+// 在屏幕坐标anchor处应用缩放
+void lsContext::set_scale(lsPoint anchor, lsReal scale)
+{
+    // 计算屏幕坐标对应的世界坐标
+    lsPoint oldpt = screen2world(anchor);
+
+    // 偏移不变，改变缩放值，计算屏幕坐标点对应的世界坐标
+    m_scale = scale;
+    update_matrix();
+    lsPoint newpt = screen2world(anchor);
+
+    // 不同缩放比例下，同一个屏幕坐标点对应的新旧两个世界点之差就是新旧两个屏幕坐标系的偏移
+    lsPoint offset(newpt.x - oldpt.x, newpt.y - oldpt.y);
+    m_origin.x += offset.x;
+    m_origin.y += offset.y;
+    update_matrix();
 }
 
 void lsContext::draw_segment(const lsReal &x1, const lsReal &y1, const lsReal &x2, const lsReal &y2)

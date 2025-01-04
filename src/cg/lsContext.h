@@ -29,6 +29,12 @@ public:
     cairo_matrix_t get_world2screen_matrix() const;
     cairo_matrix_t get_screen2world_matrix() const;
 
+    lsPoint screen2world(lsPoint pos);
+    lsPoint world2screen(lsPoint pos);
+
+    void update_matrix();
+    void set_scale(lsPoint anchor, lsReal scale);
+
 // 绘图接口
 public:
     void draw_segment(const lsReal& x1, const lsReal& y1, const lsReal& x2, const lsReal& y2);
@@ -57,7 +63,14 @@ private:
 
     bool m_initialized;// 标记cairo对象是否创建，保证不重复创建和释放
 
+    // 坐标系变换
+    lsPoint m_origin;// 屏幕坐标系原点在世界坐标系下的坐标
+    lsReal m_scale;// 世界坐标系到屏幕坐标系的缩放比例 屏幕距离/世界距离
+    lsReal m_rotation;// 世界坐标系到屏幕坐标系的旋转弧度 单位为弧度
+    bool m_flipx;
+    bool m_flipy;// 一般来说，转换到屏幕坐标系，要对y进行翻转
     cairo_matrix_t m_matrixWorld2Screen;// 世界坐标系到屏幕坐标系的变换矩阵
+    cairo_matrix_t m_matrixScreen2World;// 屏幕坐标系到世界坐标系的变换矩阵
 
     lsRenderTarget *m_target;
 };
