@@ -90,7 +90,7 @@ lsFrame::lsFrame()
 
     // 主界面布局
     SetSizer(canvasSizer);
-    // Centre();
+    Layout();
 
 	// 绑定事件处理函数
 	Bind(wxEVT_MENU, &lsFrame::OnOpen, this, wxID_OPEN);
@@ -100,6 +100,11 @@ lsFrame::lsFrame()
     Bind(wxEVT_MENU, &lsFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &lsFrame::OnExit, this, wxID_EXIT);
     Bind(wxEVT_MENU, &lsFrame::OnRedrawCanvas, this, ID_VIEW_REDRAW_CANVAS);
+
+	Bind(wxEVT_PAINT, &lsFrame::OnPaint, this);
+	Bind(wxEVT_SIZE, &lsFrame::OnSize, this);
+	Bind(wxEVT_IDLE, &lsFrame::OnIdle, this);
+
 #ifdef LS_USE_CV
     Bind(wxEVT_MENU, &lsFrame::OnBinarize, this, ID_TOOL_BINARIZE);
     Bind(wxEVT_MENU, &lsFrame::OnOpenCamera, this, ID_VIEW_OPEN_CAMERA);
@@ -171,6 +176,27 @@ void lsFrame::OnExit(wxCommandEvent &event)
 	Close(true);
 }
 
+
+void lsFrame::OnPaint(wxPaintEvent& event)
+{
+    wxSize clientSize = GetClientSize();
+
+    int a = 100;
+}
+
+void lsFrame::OnSize(wxSizeEvent& event)
+{
+    wxSize clientSize = GetClientSize();
+
+    int a = 100;
+}
+
+void lsFrame::OnIdle(wxIdleEvent& event)
+{
+    wxSize clientSize = GetClientSize();
+
+    int a = 100;
+}
 
 #ifdef LS_USE_CV
 void lsFrame::OnBinarize(wxCommandEvent &event)

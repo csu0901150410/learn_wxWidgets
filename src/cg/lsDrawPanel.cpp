@@ -50,6 +50,9 @@ void lsDrawPanel::parse_svg()
 
 void lsDrawPanel::OnPaint(wxPaintEvent &event)
 {
+    wxSize clientSize = GetClientSize();
+    int a = 100;
+
     // cairo backend
     // https://www.cairographics.org/
     // https://github.com/preshing/cairo-windows
@@ -59,14 +62,14 @@ void lsDrawPanel::OnPaint(wxPaintEvent &event)
 void lsDrawPanel::OnSize(wxSizeEvent &event)
 {
     // 窗口尺寸变化的时候，重建绘图后端的缓冲区
-    // 初始化的时候要有好几个OnSize才变为最终的尺寸
-    // 这里相当于依赖了先到来的消息是OnSize并重建（创建）了缓冲区
     wxSize clientSize = GetClientSize();
     m_view->resize_screen(clientSize.x, clientSize.y);
 }
 
 void lsDrawPanel::OnIdle(wxIdleEvent &event)
 {
+    wxSize clientSize = GetClientSize();
+
     event.Skip();
 }
 

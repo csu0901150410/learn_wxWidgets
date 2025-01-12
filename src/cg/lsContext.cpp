@@ -233,8 +233,10 @@ void lsContext::deinit_surface()
 // see https://www.cairographics.org/manual/cairo-cairo-matrix-t.html Description
 lsPoint lsContext::transform(const lsPoint &point)
 {
-    lsPoint ret;
-    ret.x = m_matrixWorld2Screen.xx * point.x + m_matrixWorld2Screen.xy * point.y + m_matrixWorld2Screen.x0;
-    ret.y = m_matrixWorld2Screen.yx * point.x + m_matrixWorld2Screen.yy * point.y + m_matrixWorld2Screen.y0;
-    return ret;
+    // lsPoint ret;
+    // ret.x = m_matrixWorld2Screen.xx * point.x + m_matrixWorld2Screen.xy * point.y + m_matrixWorld2Screen.x0;
+    // ret.y = m_matrixWorld2Screen.yx * point.x + m_matrixWorld2Screen.yy * point.y + m_matrixWorld2Screen.y0;
+    // return ret;
+
+    return point;
 }

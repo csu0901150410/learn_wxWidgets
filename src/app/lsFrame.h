@@ -26,6 +26,10 @@ public:
 	void OnAbout(wxCommandEvent& event);
 	void OnExit(wxCommandEvent& event);
 
+	void OnPaint(wxPaintEvent& event);
+	void OnSize(wxSizeEvent& event);
+	void OnIdle(wxIdleEvent& event);
+
 #ifdef LS_USE_CV
 	void OnBinarize(wxCommandEvent& event);
 	void OnOpenCamera(wxCommandEvent& event);
