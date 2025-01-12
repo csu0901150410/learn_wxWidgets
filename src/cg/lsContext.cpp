@@ -32,6 +32,8 @@ void lsContext::resize_screen(int width, int height)
 
     release_buffer();
     allocate_buffer();
+
+    update_matrix();
 }
 
 void lsContext::clear_screen()
@@ -127,9 +129,16 @@ void lsContext::update_matrix()
     cairo_matrix_t translation;
     cairo_matrix_init_translate(&translation, -m_origin.x, -m_origin.y);
 
+    // lookat逻辑，我们总是透过屏幕中心去观察世界坐标系中的某一点
+    // 变换的最后，让m_origin最后对应到屏幕中心上，相当于是我们通过屏幕观察m_origin
+    // 本质还是，让屏幕上固定一点，对应场景中某一点
+    cairo_matrix_t lookat;
+    cairo_matrix_init_translate(&lookat, m_screenWidth / 2, m_screenHeight / 2);
+
     cairo_matrix_t matrix;
     cairo_matrix_init_identity(&matrix);
     cairo_matrix_multiply(&matrix, &translation, &matrix);
+    cairo_matrix_multiply(&matrix, &lookat, &matrix);
 
     m_matrixWorld2Screen = matrix;
     m_matrixScreen2World = matrix;

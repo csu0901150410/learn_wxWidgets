@@ -28,7 +28,7 @@ lsView::lsView(wxWindow *parent)
 
     // 设置视口，通过屏幕观察场景中的box区域
     lsBoundbox viewbox = box;
-    viewbox.scale(1.1, 1.1);
+    // viewbox.scale(1.1, 1.1);
     set_viewport(viewbox);
 
     m_factor = 1.0;
