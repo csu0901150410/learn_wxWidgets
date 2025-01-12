@@ -24,8 +24,11 @@ public:
 
     void set_viewport(const lsBoundbox &box);
 
+    void set_center(const lsPoint &pos);
+    void set_scale(lsReal scale);
+
 public:
-    void zoom(lsReal factor, lsReal screenx, lsReal screeny);
+    void zoom(lsReal scale, lsReal screenx, lsReal screeny);
     void zoom_in(lsReal cx, lsReal cy);
     void zoom_out(lsReal cx, lsReal cy);
 
@@ -40,7 +43,6 @@ public:
     lsContext *m_context;
 
 private:
-    lsReal m_offsetx;// 屏幕坐标系原点相对于世界坐标系的偏移量，用世界坐标距离描述
-    lsReal m_offsety;// 屏幕坐标系原点相对于世界坐标系的偏移量，用世界坐标距离描述
-    lsReal m_factor;// 缩放比例 屏幕坐标/世界坐标
+    lsPoint m_center;
+    lsReal m_scale;
 };

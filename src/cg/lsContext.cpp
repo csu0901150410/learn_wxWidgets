@@ -13,8 +13,8 @@ lsContext::lsContext(lsRenderTarget *target)
     cairo_matrix_init_identity(&m_matrixWorld2Screen);
     cairo_matrix_init_identity(&m_matrixScreen2World);
 
-    m_origin = lsPoint(0, 0);// 初始化，世界坐标系/屏幕坐标系原点重合
-    update_matrix();
+    m_lookat = lsPoint(0, 0);
+    m_scale = 1.0;
 }
 
 lsContext::~lsContext()
@@ -124,36 +124,35 @@ void lsContext::update_matrix()
     // see https://mcasjcet.weebly.com/uploads/4/4/7/9/4479347/computer_graphics_second_module_second.pdf
 
     // 这里计算的是 world -> screen ，这个矩阵左乘在世界坐标上，得到屏幕坐标
-    // 考察世界坐标点m_origin，该点对应的屏幕坐标是(0, 0)
+
+    cairo_matrix_t lookat;
+    cairo_matrix_init_translate(&lookat, -m_lookat.x, -m_lookat.y);
+
+    cairo_matrix_t scale;
+    cairo_matrix_init_scale(&scale, m_scale, m_scale);
 
     cairo_matrix_t translation;
-    cairo_matrix_init_translate(&translation, -m_origin.x, -m_origin.y);
-
-    // lookat逻辑，我们总是透过屏幕中心去观察世界坐标系中的某一点
-    // 变换的最后，让m_origin最后对应到屏幕中心上，相当于是我们通过屏幕观察m_origin
-    // 本质还是，让屏幕上固定一点，对应场景中某一点
-    cairo_matrix_t lookat;
-    cairo_matrix_init_translate(&lookat, m_screenWidth / 2, m_screenHeight / 2);
+    cairo_matrix_init_translate(&translation, m_screenWidth / 2, m_screenHeight / 2);
 
     cairo_matrix_t matrix;
     cairo_matrix_init_identity(&matrix);
-    cairo_matrix_multiply(&matrix, &translation, &matrix);
     cairo_matrix_multiply(&matrix, &lookat, &matrix);
+    cairo_matrix_multiply(&matrix, &scale, &matrix);
+    cairo_matrix_multiply(&matrix, &translation, &matrix);
 
     m_matrixWorld2Screen = matrix;
     m_matrixScreen2World = matrix;
     cairo_matrix_invert(&m_matrixScreen2World);
 }
 
-// 在屏幕坐标anchor处应用缩放
-void lsContext::set_scale(lsPoint anchor, lsReal scale)
+void lsContext::set_scale(lsReal scale)
 {
-    
+    m_scale = scale;
 }
 
-void lsContext::set_origin(const lsPoint &pos)
+void lsContext::set_lookat(const lsPoint &pos)
 {
-    m_origin = pos;
+    m_lookat = pos;
 }
 
 void lsContext::draw_segment(const lsReal &x1, const lsReal &y1, const lsReal &x2, const lsReal &y2)

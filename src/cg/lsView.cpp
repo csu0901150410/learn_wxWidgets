@@ -30,8 +30,6 @@ lsView::lsView(wxWindow *parent)
     lsBoundbox viewbox = box;
     // viewbox.scale(1.1, 1.1);
     set_viewport(viewbox);
-
-    m_factor = 1.0;
 }
 
 lsView::~lsView()
@@ -62,26 +60,35 @@ void lsView::resize_screen(int width, int height)
 // 设置场景中的一个矩形区域为屏幕显示的区域，暂时不考虑缩放，只考虑原点偏移
 void lsView::set_viewport(const lsBoundbox &box)
 {
-    // 假设屏幕原点和矩形左下角重合
-    lsPoint origin(box.left, box.bottom);
-    m_context->set_origin(origin);
+    set_center(box.center());
+}
+
+void lsView::set_center(const lsPoint &pos)
+{
+    m_context->set_lookat(pos);
     m_context->update_matrix();
 }
 
-void lsView::zoom(lsReal factor, lsReal screenx, lsReal screeny)
+void lsView::set_scale(lsReal scale)
+{
+    m_context->set_scale(scale);
+    m_context->update_matrix();
+}
+
+void lsView::zoom(lsReal scale, lsReal screenx, lsReal screeny)
 {
     // 计算新的缩放值
-    m_factor *= factor;
-    if (m_factor < 0.1)
+    m_scale *= scale;
+    if (m_scale < 0.1)
     {
-        m_factor = 0.1;
+        m_scale = 0.1;
     }
-    else if (m_factor > 10)
+    else if (m_scale > 10)
     {
-        m_factor = 10;
+        m_scale = 10;
     }
 
-    m_context->set_scale(lsPoint(screenx, screeny), m_factor);
+    
     
     redraw();
 }
