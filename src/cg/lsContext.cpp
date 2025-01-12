@@ -13,12 +13,7 @@ lsContext::lsContext(lsRenderTarget *target)
     cairo_matrix_init_identity(&m_matrixWorld2Screen);
     cairo_matrix_init_identity(&m_matrixScreen2World);
 
-    m_origin = lsPoint(0, 0);
-    m_scale = 1.0;
-    m_rotation = 0;
-    m_flipx = false;
-    m_flipy = false;
-
+    m_origin = lsPoint(0, 0);// 初始化，世界坐标系/屏幕坐标系原点重合
     update_matrix();
 }
 
@@ -124,29 +119,17 @@ void lsContext::update_matrix()
 {
     // 计算世界坐标系到屏幕坐标系的变换矩阵，再求逆得到screen -> world
 
-    // 缩放矩阵，世界距离 * m_scale = 屏幕距离
-    cairo_matrix_t scale;
-    cairo_matrix_init_scale(&scale, m_scale, m_scale);
+    // see https://mcasjcet.weebly.com/uploads/4/4/7/9/4479347/computer_graphics_second_module_second.pdf
 
-    // 旋转矩阵
-    cairo_matrix_t rotation;
-    cairo_matrix_init_rotate(&rotation, m_rotation);
+    // 这里计算的是 world -> screen ，这个矩阵左乘在世界坐标上，得到屏幕坐标
+    // 考察世界坐标点m_origin，该点对应的屏幕坐标是(0, 0)
 
-    // 平移矩阵，世界坐标系原点平移到屏幕坐标系的原点
     cairo_matrix_t translation;
-    cairo_matrix_init_translate(&translation, m_origin.x, m_origin.y);
-
-    // 翻转
-    cairo_matrix_t flip;
-    cairo_matrix_init_scale(&flip, m_flipx ? -1.0 : 1.0, m_flipy ? -1.0 : 1.0);
-    cairo_matrix_translate(&flip, m_flipx ? -m_screenWidth : 0, m_flipy ? -m_screenHeight : 0);
+    cairo_matrix_init_translate(&translation, -m_origin.x, -m_origin.y);
 
     cairo_matrix_t matrix;
     cairo_matrix_init_identity(&matrix);
-    cairo_matrix_multiply(&matrix, &scale, &matrix);
-    cairo_matrix_multiply(&matrix, &rotation, &matrix);
     cairo_matrix_multiply(&matrix, &translation, &matrix);
-    cairo_matrix_multiply(&matrix, &flip, &matrix);
 
     m_matrixWorld2Screen = matrix;
     m_matrixScreen2World = matrix;
@@ -156,19 +139,12 @@ void lsContext::update_matrix()
 // 在屏幕坐标anchor处应用缩放
 void lsContext::set_scale(lsPoint anchor, lsReal scale)
 {
-    // 计算屏幕坐标对应的世界坐标
-    lsPoint oldpt = screen2world(anchor);
+    
+}
 
-    // 偏移不变，改变缩放值，计算屏幕坐标点对应的世界坐标
-    m_scale = scale;
-    update_matrix();
-    lsPoint newpt = screen2world(anchor);
-
-    // 不同缩放比例下，同一个屏幕坐标点对应的新旧两个世界点之差就是新旧两个屏幕坐标系的偏移
-    lsPoint offset(newpt.x - oldpt.x, newpt.y - oldpt.y);
-    m_origin.x += offset.x;
-    m_origin.y += offset.y;
-    update_matrix();
+void lsContext::set_origin(const lsPoint &pos)
+{
+    m_origin = pos;
 }
 
 void lsContext::draw_segment(const lsReal &x1, const lsReal &y1, const lsReal &x2, const lsReal &y2)
@@ -233,10 +209,8 @@ void lsContext::deinit_surface()
 // see https://www.cairographics.org/manual/cairo-cairo-matrix-t.html Description
 lsPoint lsContext::transform(const lsPoint &point)
 {
-    // lsPoint ret;
-    // ret.x = m_matrixWorld2Screen.xx * point.x + m_matrixWorld2Screen.xy * point.y + m_matrixWorld2Screen.x0;
-    // ret.y = m_matrixWorld2Screen.yx * point.x + m_matrixWorld2Screen.yy * point.y + m_matrixWorld2Screen.y0;
-    // return ret;
-
-    return point;
+    lsPoint ret;
+    ret.x = m_matrixWorld2Screen.xx * point.x + m_matrixWorld2Screen.xy * point.y + m_matrixWorld2Screen.x0;
+    ret.y = m_matrixWorld2Screen.yx * point.x + m_matrixWorld2Screen.yy * point.y + m_matrixWorld2Screen.y0;
+    return ret;
 }

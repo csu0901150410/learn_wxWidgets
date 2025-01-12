@@ -26,6 +26,11 @@ lsView::lsView(wxWindow *parent)
     m_document->add(new lsSegment(lsPoint(box.right, box.top), lsPoint(box.right, box.bottom)));
     m_document->add(new lsSegment(lsPoint(box.right, box.bottom), lsPoint(box.left, box.bottom)));
 
+    // 设置视口，通过屏幕观察场景中的box区域
+    lsBoundbox viewbox = box;
+    viewbox.scale(1.1, 1.1);
+    set_viewport(viewbox);
+
     m_factor = 1.0;
 }
 
@@ -52,6 +57,15 @@ void lsView::redraw()
 void lsView::resize_screen(int width, int height)
 {
     m_context->resize_screen(width, height);
+}
+
+// 设置场景中的一个矩形区域为屏幕显示的区域，暂时不考虑缩放，只考虑原点偏移
+void lsView::set_viewport(const lsBoundbox &box)
+{
+    // 假设屏幕原点和矩形左下角重合
+    lsPoint origin(box.left, box.bottom);
+    m_context->set_origin(origin);
+    m_context->update_matrix();
 }
 
 void lsView::zoom(lsReal factor, lsReal screenx, lsReal screeny)

@@ -4,6 +4,7 @@
 
 #include "lsCommon.h"
 #include "lsPoint.h"
+#include "lsBoundbox.h"
 
 class lsContext;
 class lsDocument;
@@ -20,6 +21,8 @@ public:
     void redraw();
 
     void resize_screen(int width, int height);
+
+    void set_viewport(const lsBoundbox &box);
 
 public:
     void zoom(lsReal factor, lsReal screenx, lsReal screeny);

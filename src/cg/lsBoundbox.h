@@ -23,6 +23,7 @@ public:
     bool is_intersect(const lsBoundbox &box);
 
     void offset(lsReal dx, lsReal dy);
+    void scale(lsReal sx, lsReal sy);
 
     void intersect(const lsBoundbox &box);
     void combine(const lsBoundbox &box);

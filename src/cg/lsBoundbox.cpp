@@ -81,6 +81,16 @@ void lsBoundbox::offset(lsReal dx, lsReal dy)
     top += dy;
 }
 
+void lsBoundbox::scale(lsReal sx, lsReal sy)
+{
+    if (sx <= 0 || sy <= 0)
+        return;
+
+    lsReal dx = (right - left) * (sx - 1) / 2;
+    lsReal dy = (top - bottom) * (sy - 1) / 2;
+    offset(dx, dy);
+}
+
 void lsBoundbox::intersect(const lsBoundbox &box)
 {
     if (!is_intersect(box))
