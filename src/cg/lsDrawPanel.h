@@ -17,6 +17,8 @@ public:
 
     void parse_svg();
 
+    void redraw();
+
 // Event handlers
 private:
     void OnPaint(wxPaintEvent& event);

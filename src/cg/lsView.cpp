@@ -25,11 +25,6 @@ lsView::lsView(wxWindow *parent)
     m_document->add(new lsSegment(lsPoint(box.left, box.top), lsPoint(box.right, box.top)));
     m_document->add(new lsSegment(lsPoint(box.right, box.top), lsPoint(box.right, box.bottom)));
     m_document->add(new lsSegment(lsPoint(box.right, box.bottom), lsPoint(box.left, box.bottom)));
-
-    // 设置视口，通过屏幕观察场景中的box区域
-    lsBoundbox viewbox = box;
-    // viewbox.scale(1.1, 1.1);
-    set_viewport(viewbox);
 }
 
 lsView::~lsView()
@@ -60,19 +55,46 @@ void lsView::resize_screen(int width, int height)
 // 设置场景中的一个矩形区域为屏幕显示的区域，暂时不考虑缩放，只考虑原点偏移
 void lsView::set_viewport(const lsBoundbox &box)
 {
+    // 保持宽高比缩放
+    lsReal scalex = box.width() / m_context->get_screen_width();
+    lsReal scaley = box.height() / m_context->get_screen_height();
+
+    // scalex/scaley取最大值，scale取到最小值，scale乘以box.width/box.height时，两者都不会超出屏幕
+    lsReal scale = 1 / std::max(scalex, scaley);
+
     set_center(box.center());
+    set_scale(1.1);
+
+    redraw();
 }
 
 void lsView::set_center(const lsPoint &pos)
 {
+    m_center = pos;
     m_context->set_lookat(pos);
     m_context->update_matrix();
 }
 
 void lsView::set_scale(lsReal scale)
 {
+    m_scale = scale;
     m_context->set_scale(scale);
     m_context->update_matrix();
+}
+
+void lsView::view_all()
+{
+    lsBoundbox box;
+    std::vector<const lsEntity *> entitys = m_document->get_entitys();
+    for (const auto& entity : entitys)
+    {
+        box.combine(entity->get_boundbox());
+    }
+
+    // 设置视口，通过屏幕观察场景中的box区域
+    lsBoundbox viewbox = box;
+    // viewbox.scale(1.1, 1.1);
+    set_viewport(viewbox);
 }
 
 void lsView::zoom(lsReal scale, lsReal screenx, lsReal screeny)

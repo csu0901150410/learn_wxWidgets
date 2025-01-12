@@ -27,6 +27,8 @@ public:
     void set_center(const lsPoint &pos);
     void set_scale(lsReal scale);
 
+    void view_all();
+
 public:
     void zoom(lsReal scale, lsReal screenx, lsReal screeny);
     void zoom_in(lsReal cx, lsReal cy);

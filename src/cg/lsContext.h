@@ -23,9 +23,11 @@ public:
     void begin_paint();
     void end_paint();
 
+    int get_screen_width() const;
+    int get_screen_height() const;
+
 // 变换接口
 public:
-    void set_world2screen_matrix(const cairo_matrix_t &matrix);
     cairo_matrix_t get_world2screen_matrix() const;
     cairo_matrix_t get_screen2world_matrix() const;
 

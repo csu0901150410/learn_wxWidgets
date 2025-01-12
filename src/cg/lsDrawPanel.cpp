@@ -48,6 +48,11 @@ void lsDrawPanel::parse_svg()
     }
 }
 
+void lsDrawPanel::redraw()
+{
+    m_view->view_all();
+}
+
 void lsDrawPanel::OnPaint(wxPaintEvent &event)
 {
     wxSize clientSize = GetClientSize();

@@ -16,3 +16,13 @@ void lsScreenRenderTarget::render(const unsigned char *buffer, int width, int he
     // 绘制到ClientDC
     clientDC.Blit(0, 0, width, height, &mdc, 0, 0, wxCOPY);
 }
+
+int lsScreenRenderTarget::get_width()
+{
+    return m_window->GetClientSize().GetWidth();
+}
+
+int lsScreenRenderTarget::get_height()
+{
+    return m_window->GetClientSize().GetHeight();
+}

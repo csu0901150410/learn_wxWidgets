@@ -12,6 +12,9 @@ public:
 
     void render(const unsigned char *buffer, int width, int height, int stride) override;
 
+    int get_width() override;
+    int get_height() override;
+
 private:
     wxWindow *m_window;
 };

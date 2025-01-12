@@ -10,6 +10,9 @@ lsContext::lsContext(lsRenderTarget *target)
     , m_wximageBuffer(nullptr)
     , m_initialized(false)
 {
+    m_screenWidth = target->get_width();
+    m_screenHeight = target->get_height();
+
     cairo_matrix_init_identity(&m_matrixWorld2Screen);
     cairo_matrix_init_identity(&m_matrixScreen2World);
 
@@ -85,9 +88,14 @@ void lsContext::end_paint()
     deinit_surface();
 }
 
-void lsContext::set_world2screen_matrix(const cairo_matrix_t &matrix)
+int lsContext::get_screen_width() const
 {
-    m_matrixWorld2Screen = matrix;
+    return m_screenWidth;
+}
+
+int lsContext::get_screen_height() const
+{
+    return m_screenHeight;
 }
 
 cairo_matrix_t lsContext::get_world2screen_matrix() const

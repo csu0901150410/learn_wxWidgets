@@ -8,4 +8,7 @@ public:
     virtual ~lsRenderTarget() = default;
 
     virtual void render(const unsigned char *buffer, int width, int height, int stride) = 0;
+
+    virtual int get_height() = 0;
+    virtual int get_width() = 0;
 };
