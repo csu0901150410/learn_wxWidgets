@@ -26,7 +26,6 @@ private:
     void OnIdle(wxIdleEvent& event);
 
     void OnMouseWheel(wxMouseEvent& event);
-    void OnMouseDrag(wxMouseEvent& event);
 
 private:
     void do_repaint();

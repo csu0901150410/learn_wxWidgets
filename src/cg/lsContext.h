@@ -30,12 +30,10 @@ public:
     cairo_matrix_t get_world2screen_matrix() const;
     cairo_matrix_t get_screen2world_matrix() const;
 
-    lsPoint screen2world(lsPoint pos);
-    lsPoint world2screen(lsPoint pos);
-
     void update_matrix();
 
     void set_viewport_offset(const lsPoint &pos);
+    lsPoint get_viewport_offset() const;
 
 // 绘图接口
 public:

@@ -109,20 +109,6 @@ cairo_matrix_t lsContext::get_screen2world_matrix() const
     return mat;
 }
 
-lsPoint lsContext::screen2world(lsPoint pos)
-{
-    lsPoint ret = pos;
-    cairo_matrix_transform_point(&m_matrixScreen2World, &ret.x, &ret.y);
-    return ret;
-}
-
-lsPoint lsContext::world2screen(lsPoint pos)
-{
-    lsPoint ret = pos;
-    cairo_matrix_transform_point(&m_matrixWorld2Screen, &ret.x, &ret.y);
-    return ret;
-}
-
 // 重新计算变换矩阵
 void lsContext::update_matrix()
 {
@@ -144,6 +130,12 @@ void lsContext::update_matrix()
 void lsContext::set_viewport_offset(const lsPoint &pos)
 {
     m_viewportOffset = pos;
+    update_matrix();
+}
+
+lsPoint lsContext::get_viewport_offset() const
+{
+    return m_viewportOffset;
 }
 
 void lsContext::draw_segment(const lsReal &x1, const lsReal &y1, const lsReal &x2, const lsReal &y2)
