@@ -2,16 +2,15 @@
 
 #include <assert.h>
 
-#include "lsRenderTarget.h"
-
-lsContext::lsContext(lsRenderTarget *target)
-    : m_target(target)
+lsContext::lsContext(wxWindow *window)
+    : m_window(window)
     , m_bitmapBuffer(nullptr)
     , m_wximageBuffer(nullptr)
     , m_initialized(false)
 {
-    m_screenWidth = target->get_width();
-    m_screenHeight = target->get_height();
+    wxSize size = window->GetClientSize();
+    m_screenWidth = size.GetWidth();
+    m_screenHeight = size.GetHeight();
 
     cairo_matrix_init_identity(&m_matrixWorld2Screen);
     cairo_matrix_init_identity(&m_matrixScreen2World);
@@ -22,8 +21,6 @@ lsContext::lsContext(lsRenderTarget *target)
 
 lsContext::~lsContext()
 {
-    delete m_target;
-
     release_buffer();
 }
 
@@ -83,7 +80,14 @@ void lsContext::end_paint()
         srcRow += stride;
     }
 
-    m_target->render(m_wximageBuffer, screenWidth, screenHeight, stride);
+    // 渲染到具体的设备上
+    wxImage img(screenWidth, screenHeight, m_wximageBuffer, true);
+    wxBitmap bmp(img);
+    wxMemoryDC mdc(bmp);
+    wxClientDC clientDC(m_window);
+
+    // 绘制到ClientDC
+    clientDC.Blit(0, 0, screenWidth, screenHeight, &mdc, 0, 0, wxCOPY);
 
     deinit_surface();
 }

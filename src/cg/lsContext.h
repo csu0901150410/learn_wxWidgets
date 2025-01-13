@@ -1,18 +1,17 @@
 ﻿#pragma once
 
 #include <cairo.h>
+#include <wx/wx.h>
 
 #include "lsPoint.h"
 #include "lsLine.h"
 #include "lsSegment.h"
 
-class lsRenderTarget;
-
 // 绘图上下文，负责具体绘图后端的实现，在绘图目标（窗口）上进行绘制动作
 class lsContext
 {
 public:
-    lsContext(lsRenderTarget *target);
+    lsContext(wxWindow *window);
     ~lsContext();
 
     // 屏幕尺寸变换，需要重新申请缓冲区
@@ -72,5 +71,5 @@ private:
     cairo_matrix_t m_matrixWorld2Screen;// 世界坐标系到屏幕坐标系的变换矩阵
     cairo_matrix_t m_matrixScreen2World;// 屏幕坐标系到世界坐标系的变换矩阵
 
-    lsRenderTarget *m_target;
+    wxWindow *m_window;
 };

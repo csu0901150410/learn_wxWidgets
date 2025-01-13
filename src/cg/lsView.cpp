@@ -5,11 +5,9 @@
 
 #include "lsBoundbox.h"
 
-#include "lsScreenRenderTarget.h"
-
 lsView::lsView(wxWindow *parent)
 {
-    m_context = new lsContext(new lsScreenRenderTarget(parent));
+    m_context = new lsContext(parent);
 
     m_document = new lsDocument();
     m_document->open("resources/models/bridge.dxf");
