@@ -34,8 +34,8 @@ public:
     lsPoint world2screen(lsPoint pos);
 
     void update_matrix();
-    void set_scale(lsReal scale);
-    void set_lookat(const lsPoint &pos);
+
+    void set_viewport_offset(const lsPoint &pos);
 
 // 绘图接口
 public:
@@ -66,8 +66,7 @@ private:
     bool m_initialized;// 标记cairo对象是否创建，保证不重复创建和释放
 
     // 坐标系变换
-    lsPoint m_lookat;// 屏幕中心对应的世界坐标
-    lsReal m_scale;
+    lsPoint m_viewportOffset;
     cairo_matrix_t m_matrixWorld2Screen;// 世界坐标系到屏幕坐标系的变换矩阵
     cairo_matrix_t m_matrixScreen2World;// 屏幕坐标系到世界坐标系的变换矩阵
 

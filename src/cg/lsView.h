@@ -24,9 +24,6 @@ public:
 
     void set_viewport(const lsBoundbox &box);
 
-    void set_center(const lsPoint &pos);
-    void set_scale(lsReal scale);
-
     void view_all();
 
 public:
@@ -43,8 +40,4 @@ public:
 
     // 由view管理绘制上下文
     lsContext *m_context;
-
-private:
-    lsPoint m_center;
-    lsReal m_scale;
 };

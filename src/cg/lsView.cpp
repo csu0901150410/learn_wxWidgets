@@ -23,6 +23,8 @@ lsView::lsView(wxWindow *parent)
     m_document->add(new lsSegment(lsPoint(box.left, box.top), lsPoint(box.right, box.top)));
     m_document->add(new lsSegment(lsPoint(box.right, box.top), lsPoint(box.right, box.bottom)));
     m_document->add(new lsSegment(lsPoint(box.right, box.bottom), lsPoint(box.left, box.bottom)));
+
+    set_viewport(box);
 }
 
 lsView::~lsView()
@@ -60,24 +62,7 @@ void lsView::set_viewport(const lsBoundbox &box)
     // scalex/scaley取最大值，scale取到最小值，scale乘以box.width/box.height时，两者都不会超出屏幕
     lsReal scale = 1 / std::max(scalex, scaley);
 
-    set_center(box.center());
-    set_scale(1.1);
-
-    redraw();
-}
-
-void lsView::set_center(const lsPoint &pos)
-{
-    m_center = pos;
-    m_context->set_lookat(pos);
-    m_context->update_matrix();
-}
-
-void lsView::set_scale(lsReal scale)
-{
-    m_scale = scale;
-    m_context->set_scale(scale);
-    m_context->update_matrix();
+    m_context->set_viewport_offset(lsPoint(box.left, box.bottom));
 }
 
 void lsView::view_all()
@@ -91,26 +76,13 @@ void lsView::view_all()
 
     // 设置视口，通过屏幕观察场景中的box区域
     lsBoundbox viewbox = box;
-    // viewbox.scale(1.1, 1.1);
     set_viewport(viewbox);
+
+    redraw();
 }
 
 void lsView::zoom(lsReal scale, lsReal screenx, lsReal screeny)
 {
-    // 计算新的缩放值
-    m_scale *= scale;
-    if (m_scale < 0.1)
-    {
-        m_scale = 0.1;
-    }
-    else if (m_scale > 10)
-    {
-        m_scale = 10;
-    }
-
-    
-    
-    redraw();
 }
 
 void lsView::zoom_in(lsReal cx, lsReal cy)

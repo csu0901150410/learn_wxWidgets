@@ -8,15 +8,10 @@ lsContext::lsContext(wxWindow *window)
     , m_wximageBuffer(nullptr)
     , m_initialized(false)
 {
-    wxSize size = window->GetClientSize();
-    m_screenWidth = size.GetWidth();
-    m_screenHeight = size.GetHeight();
-
     cairo_matrix_init_identity(&m_matrixWorld2Screen);
     cairo_matrix_init_identity(&m_matrixScreen2World);
 
-    m_lookat = lsPoint(0, 0);
-    m_scale = 1.0;
+    m_viewportOffset = lsPoint(0, 0);
 }
 
 lsContext::~lsContext()
@@ -133,23 +128,12 @@ void lsContext::update_matrix()
 {
     // 计算世界坐标系到屏幕坐标系的变换矩阵，再求逆得到screen -> world
 
-    // see https://mcasjcet.weebly.com/uploads/4/4/7/9/4479347/computer_graphics_second_module_second.pdf
-
-    // 这里计算的是 world -> screen ，这个矩阵左乘在世界坐标上，得到屏幕坐标
-
-    cairo_matrix_t lookat;
-    cairo_matrix_init_translate(&lookat, -m_lookat.x, -m_lookat.y);
-
-    cairo_matrix_t scale;
-    cairo_matrix_init_scale(&scale, m_scale, m_scale);
-
+    // 将视口映射到屏幕
     cairo_matrix_t translation;
-    cairo_matrix_init_translate(&translation, m_screenWidth / 2, m_screenHeight / 2);
+    cairo_matrix_init_translate(&translation, -m_viewportOffset.x, -m_viewportOffset.y);
 
     cairo_matrix_t matrix;
     cairo_matrix_init_identity(&matrix);
-    cairo_matrix_multiply(&matrix, &lookat, &matrix);
-    cairo_matrix_multiply(&matrix, &scale, &matrix);
     cairo_matrix_multiply(&matrix, &translation, &matrix);
 
     m_matrixWorld2Screen = matrix;
@@ -157,14 +141,9 @@ void lsContext::update_matrix()
     cairo_matrix_invert(&m_matrixScreen2World);
 }
 
-void lsContext::set_scale(lsReal scale)
+void lsContext::set_viewport_offset(const lsPoint &pos)
 {
-    m_scale = scale;
-}
-
-void lsContext::set_lookat(const lsPoint &pos)
-{
-    m_lookat = pos;
+    m_viewportOffset = pos;
 }
 
 void lsContext::draw_segment(const lsReal &x1, const lsReal &y1, const lsReal &x2, const lsReal &y2)
